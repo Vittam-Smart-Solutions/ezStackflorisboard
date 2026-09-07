@@ -4,7 +4,6 @@
     { "code":   -7, "label": "delete", "type": "enter_editing" }
   ],
   [
-    { "code": -202, "label": "view_symbols", "type": "system_gui" },
     { "code": -227, "label": "language_switch", "type": "system_gui" },
     { "code": -212, "label": "ime_ui_mode_media", "type": "system_gui" },
     { "$": "variation_selector",

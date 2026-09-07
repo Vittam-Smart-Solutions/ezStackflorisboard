@@ -4,7 +4,6 @@
     { "code":   -7, "label": "delete", "type": "enter_editing" }
   ],
   [
-    { "code": -202, "label": "view_symbols", "type": "system_gui" },
     { "$": "variation_selector",
       "default":  { "code": 1548, "label": "،", "groupId": 1 },
       "password": { "code": 35, "label": "#", "groupId": 1 },
