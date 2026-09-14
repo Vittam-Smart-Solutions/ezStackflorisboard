@@ -464,7 +464,7 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
     inner class Smartbar {
         val enabled = boolean(
             key = "smartbar__enabled",
-            default = true,
+            default = false,
         )
         val layout = enum(
             key = "smartbar__layout",
