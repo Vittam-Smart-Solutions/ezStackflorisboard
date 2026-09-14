@@ -471,7 +471,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
      */
     private fun handleLanguageSwitch() {
         when (prefs.keyboard.utilityKeyAction.get()) {
-            UtilityKeyAction.DYNAMIC_SWITCH_LANGUAGE_EMOJIS,
             UtilityKeyAction.SWITCH_LANGUAGE -> subtypeManager.switchToNextSubtype()
             else -> FlorisImeService.switchToNextInputMethod()
         }
@@ -995,8 +994,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
                         UtilityKeyAction.DISABLED,
                         UtilityKeyAction.SWITCH_LANGUAGE,
                         UtilityKeyAction.SWITCH_KEYBOARD_APP -> false
-                        UtilityKeyAction.SWITCH_TO_EMOJIS -> true
-                        UtilityKeyAction.DYNAMIC_SWITCH_LANGUAGE_EMOJIS -> !shouldShowLanguageSwitch()
                     }
                 }
                 KeyCode.LANGUAGE_SWITCH -> {
@@ -1005,11 +1002,9 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
                         else -> UtilityKeyAction.DISABLED
                     }
                     when (tempUtilityKeyAction) {
-                        UtilityKeyAction.DISABLED,
-                        UtilityKeyAction.SWITCH_TO_EMOJIS -> false
-                        UtilityKeyAction.SWITCH_LANGUAGE,
+                        UtilityKeyAction.DISABLED -> false
+                        UtilityKeyAction.SWITCH_LANGUAGE -> shouldShowLanguageSwitch()
                         UtilityKeyAction.SWITCH_KEYBOARD_APP -> true
-                        UtilityKeyAction.DYNAMIC_SWITCH_LANGUAGE_EMOJIS -> shouldShowLanguageSwitch()
                     }
                 }
                 else -> true

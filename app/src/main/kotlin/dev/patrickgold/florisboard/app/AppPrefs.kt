@@ -437,7 +437,7 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         )
         val utilityKeyAction = enum(
             key = "keyboard__utility_key_action",
-            default = UtilityKeyAction.DYNAMIC_SWITCH_LANGUAGE_EMOJIS,
+            default = UtilityKeyAction.SWITCH_LANGUAGE,
         )
         val spaceBarMode = enum(
             key = "keyboard__space_bar_display_mode",
