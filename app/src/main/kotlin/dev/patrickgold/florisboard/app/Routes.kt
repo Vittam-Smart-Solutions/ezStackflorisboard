@@ -69,7 +69,6 @@ import dev.patrickgold.florisboard.app.settings.localization.LanguagePackManager
 import dev.patrickgold.florisboard.app.settings.localization.LocalizationScreen
 import dev.patrickgold.florisboard.app.settings.localization.SelectLocaleScreen
 import dev.patrickgold.florisboard.app.settings.localization.SubtypeEditorScreen
-import dev.patrickgold.florisboard.app.settings.media.MediaScreen
 import dev.patrickgold.florisboard.app.settings.smartbar.SmartbarScreen
 import dev.patrickgold.florisboard.app.settings.theme.ThemeManagerScreen
 import dev.patrickgold.florisboard.app.settings.theme.ThemeManagerScreenAction
@@ -167,10 +166,6 @@ object Routes {
         @Serializable
         @Deeplink("settings/clipboard")
         object Clipboard
-
-        @Serializable
-        @Deeplink("settings/media")
-        object Media
 
         @Serializable
         @Deeplink("settings/other")
@@ -311,8 +306,6 @@ object Routes {
             composableWithDeepLink(Settings.Gestures::class) { GesturesScreen() }
 
             composableWithDeepLink(Settings.Clipboard::class) { ClipboardScreen() }
-
-            composableWithDeepLink(Settings.Media::class) { MediaScreen() }
 
             composableWithDeepLink(Settings.Other::class) { OtherScreen() }
             composableWithDeepLink(Settings.PhysicalKeyboard::class) { PhysicalKeyboardScreen() }
