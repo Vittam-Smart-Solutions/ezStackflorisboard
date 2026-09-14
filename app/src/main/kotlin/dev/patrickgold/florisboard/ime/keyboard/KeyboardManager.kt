@@ -241,14 +241,10 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
         val keyData = when (swipeAction) {
             SwipeAction.CYCLE_TO_PREVIOUS_KEYBOARD_MODE -> when (activeState.keyboardMode) {
                 KeyboardMode.CHARACTERS -> TextKeyData.VIEW_NUMERIC_ADVANCED
-                KeyboardMode.NUMERIC_ADVANCED -> TextKeyData.VIEW_SYMBOLS2
-                KeyboardMode.SYMBOLS2 -> TextKeyData.VIEW_SYMBOLS
                 else -> TextKeyData.VIEW_CHARACTERS
             }
             SwipeAction.CYCLE_TO_NEXT_KEYBOARD_MODE -> when (activeState.keyboardMode) {
-                KeyboardMode.CHARACTERS -> TextKeyData.VIEW_SYMBOLS
-                KeyboardMode.SYMBOLS -> TextKeyData.VIEW_SYMBOLS2
-                KeyboardMode.SYMBOLS2 -> TextKeyData.VIEW_NUMERIC_ADVANCED
+                KeyboardMode.CHARACTERS -> TextKeyData.VIEW_NUMERIC_ADVANCED
                 else -> TextKeyData.VIEW_CHARACTERS
             }
             SwipeAction.DELETE_WORD -> TextKeyData.DELETE_WORD

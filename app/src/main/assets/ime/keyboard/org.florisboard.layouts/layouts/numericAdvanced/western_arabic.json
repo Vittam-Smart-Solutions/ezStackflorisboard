@@ -39,7 +39,6 @@
   [
     { "code": -201, "label": "view_characters", "type": "system_gui" },
     { "code":   44, "label": "," },
-    { "code": -202, "label": "view_symbols", "type": "system_gui" },
     { "code":   48, "label": "0", "type": "numeric" },
     { "code":   61, "label": "=" },
     { "code":   46, "label": "." },
