@@ -118,9 +118,6 @@ data class TextKeyData(
                 CLIPBOARD_PASTE,
                 CLIPBOARD_SELECT,
                 CLIPBOARD_SELECT_ALL,
-                CLIPBOARD_CLEAR_HISTORY,
-                CLIPBOARD_CLEAR_FULL_HISTORY,
-                CLIPBOARD_CLEAR_PRIMARY_CLIP,
                 TOGGLE_COMPACT_LAYOUT,
                 COMPACT_LAYOUT_TO_LEFT,
                 COMPACT_LAYOUT_TO_RIGHT,
@@ -131,7 +128,6 @@ data class TextKeyData(
                 VIEW_SYMBOLS2,
                 VIEW_NUMERIC_ADVANCED,
                 IME_UI_MODE_TEXT,
-                IME_UI_MODE_CLIPBOARD,
                 SYSTEM_INPUT_METHOD_PICKER,
                 SYSTEM_PREV_INPUT_METHOD,
                 SYSTEM_NEXT_INPUT_METHOD,
@@ -317,25 +313,6 @@ data class TextKeyData(
             code = KeyCode.CLIPBOARD_SELECT_ALL,
             label = "clipboard_select_all",
         )
-        /** Predefined key data for [KeyCode.CLIPBOARD_CLEAR_HISTORY] */
-        val CLIPBOARD_CLEAR_HISTORY = TextKeyData(
-            type = KeyType.SYSTEM_GUI,
-            code = KeyCode.CLIPBOARD_CLEAR_HISTORY,
-            label = "clipboard_clear_history",
-        )
-        /** Predefined key data for [KeyCode.CLIPBOARD_CLEAR_FULL_HISTORY] */
-        val CLIPBOARD_CLEAR_FULL_HISTORY = TextKeyData(
-            type = KeyType.SYSTEM_GUI,
-            code = KeyCode.CLIPBOARD_CLEAR_FULL_HISTORY,
-            label = "clipboard_clear_full_history",
-        )
-        /** Predefined key data for [KeyCode.CLIPBOARD_CLEAR_PRIMARY_CLIP] */
-        val CLIPBOARD_CLEAR_PRIMARY_CLIP = TextKeyData(
-            type = KeyType.SYSTEM_GUI,
-            code = KeyCode.CLIPBOARD_CLEAR_PRIMARY_CLIP,
-            label = "clipboard_clear_primary_clip",
-        )
-
         /** Predefined key data for [KeyCode.TOGGLE_FLOATING_WINDOW] */
         val TOGGLE_FLOATING_WINDOW = TextKeyData(
             type = KeyType.SYSTEM_GUI,
@@ -411,13 +388,6 @@ data class TextKeyData(
             code = KeyCode.IME_UI_MODE_TEXT,
             label = "ime_ui_mode_text",
         )
-        /** Predefined key data for [KeyCode.IME_UI_MODE_CLIPBOARD] */
-        val IME_UI_MODE_CLIPBOARD = TextKeyData(
-            type = KeyType.SYSTEM_GUI,
-            code = KeyCode.IME_UI_MODE_CLIPBOARD,
-            label = "ime_ui_mode_clipboard",
-        )
-
         /** Predefined key data for [KeyCode.SYSTEM_INPUT_METHOD_PICKER] */
         val SYSTEM_INPUT_METHOD_PICKER = TextKeyData(
             type = KeyType.FUNCTION,

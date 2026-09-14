@@ -82,13 +82,11 @@ fun QuickAction.computeDisplayName(evaluator: ComputingEvaluator): String {
             KeyCode.ARROW_DOWN -> R.string.quick_action__arrow_down
             KeyCode.ARROW_LEFT -> R.string.quick_action__arrow_left
             KeyCode.ARROW_RIGHT -> R.string.quick_action__arrow_right
-            KeyCode.CLIPBOARD_CLEAR_PRIMARY_CLIP -> R.string.quick_action__clipboard_clear_primary_clip
             KeyCode.CLIPBOARD_COPY -> R.string.quick_action__clipboard_copy
             KeyCode.CLIPBOARD_CUT -> R.string.quick_action__clipboard_cut
             KeyCode.CLIPBOARD_PASTE -> R.string.quick_action__clipboard_paste
             KeyCode.CLIPBOARD_SELECT_ALL -> R.string.quick_action__clipboard_select_all
             KeyCode.FORWARD_DELETE -> R.string.quick_action__forward_delete
-            KeyCode.IME_UI_MODE_CLIPBOARD -> R.string.quick_action__ime_ui_mode_clipboard
             KeyCode.LANGUAGE_SWITCH -> R.string.quick_action__language_switch
             KeyCode.SETTINGS -> R.string.quick_action__settings
             KeyCode.UNDO -> R.string.quick_action__undo
@@ -122,12 +120,10 @@ fun QuickAction.computeTooltip(evaluator: ComputingEvaluator): String {
             KeyCode.ARROW_DOWN -> R.string.quick_action__arrow_down__tooltip
             KeyCode.ARROW_LEFT -> R.string.quick_action__arrow_left__tooltip
             KeyCode.ARROW_RIGHT -> R.string.quick_action__arrow_right__tooltip
-            KeyCode.CLIPBOARD_CLEAR_PRIMARY_CLIP -> R.string.quick_action__clipboard_clear_primary_clip__tooltip
             KeyCode.CLIPBOARD_COPY -> R.string.quick_action__clipboard_copy__tooltip
             KeyCode.CLIPBOARD_CUT -> R.string.quick_action__clipboard_cut__tooltip
             KeyCode.CLIPBOARD_PASTE -> R.string.quick_action__clipboard_paste__tooltip
             KeyCode.CLIPBOARD_SELECT_ALL -> R.string.quick_action__clipboard_select_all__tooltip
-            KeyCode.IME_UI_MODE_CLIPBOARD -> R.string.quick_action__ime_ui_mode_clipboard__tooltip
             KeyCode.LANGUAGE_SWITCH -> R.string.quick_action__language_switch__tooltip
             KeyCode.SETTINGS -> R.string.quick_action__settings__tooltip
             KeyCode.UNDO -> R.string.quick_action__undo__tooltip

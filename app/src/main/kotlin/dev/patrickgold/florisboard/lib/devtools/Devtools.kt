@@ -120,7 +120,6 @@ object Devtools {
             append("Suggestions enabled         : ").appendLine(prefs.suggestion.enabled.get())
             append("Inline autofill enabled     : ").appendLine(prefs.suggestion.api30InlineSuggestionsEnabled.get())
             append("Glide enabled               : ").appendLine(prefs.glide.enabled.get())
-            append("Internal clipboard enabled  : ").appendLine(prefs.clipboard.useInternalClipboard.get())
         }
     }
 

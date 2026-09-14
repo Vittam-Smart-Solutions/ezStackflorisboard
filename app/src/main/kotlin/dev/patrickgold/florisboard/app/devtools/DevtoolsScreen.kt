@@ -66,12 +66,6 @@ fun DevtoolsScreen() = FlorisScreen {
 
         PreferenceGroup(title = stringRes(R.string.devtools__title)) {
             SwitchPreference(
-                prefs.devtools.showPrimaryClip,
-                title = stringRes(R.string.devtools__show_primary_clip__label),
-                summary = stringRes(R.string.devtools__show_primary_clip__summary),
-                enabledIf = { prefs.devtools.enabled isEqualTo true },
-            )
-            SwitchPreference(
                 prefs.devtools.showInputStateOverlay,
                 title = stringRes(R.string.devtools__show_input_state_overlay__label),
                 summary = stringRes(R.string.devtools__show_input_state_overlay__summary),

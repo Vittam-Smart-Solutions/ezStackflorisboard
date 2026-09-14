@@ -16,15 +16,11 @@
 
 package dev.patrickgold.florisboard.app
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import dev.patrickgold.florisboard.app.settings.theme.ColorPreferenceSerializer
 import dev.patrickgold.florisboard.app.settings.theme.DisplayKbdAfterDialogs
 import dev.patrickgold.florisboard.app.settings.theme.SnyggLevel
 import dev.patrickgold.florisboard.app.setup.NotificationPermissionState
-import dev.patrickgold.florisboard.ime.clipboard.CLIPBOARD_HISTORY_NUM_GRID_COLUMNS_AUTO
-import dev.patrickgold.florisboard.ime.clipboard.ClipboardSyncBehavior
 import dev.patrickgold.florisboard.ime.core.DisplayLanguageNamesIn
 import dev.patrickgold.florisboard.ime.core.Subtype
 import dev.patrickgold.florisboard.ime.input.CapitalizationBehavior
@@ -55,12 +51,9 @@ import dev.patrickgold.florisboard.lib.util.VersionName
 import dev.patrickgold.jetpref.datastore.annotations.Preferences
 import dev.patrickgold.jetpref.datastore.jetprefDataStoreOf
 import dev.patrickgold.jetpref.datastore.model.LocalTime
-import dev.patrickgold.jetpref.datastore.model.PreferenceData
 import dev.patrickgold.jetpref.datastore.model.PreferenceMigrationEntry
 import dev.patrickgold.jetpref.datastore.model.PreferenceModel
-import dev.patrickgold.jetpref.datastore.model.PreferenceType
 import dev.patrickgold.jetpref.material.ui.ColorRepresentation
-import org.florisboard.lib.android.isOrientationPortrait
 
 val FlorisPreferenceStore = jetprefDataStoreOf(FlorisPreferenceModel::class)
 
@@ -68,87 +61,6 @@ val FlorisPreferenceStore = jetprefDataStoreOf(FlorisPreferenceModel::class)
 abstract class FlorisPreferenceModel : PreferenceModel() {
     companion object {
         const val NAME = "florisboard-app-prefs"
-    }
-
-    val clipboard = Clipboard()
-    inner class Clipboard {
-        val useInternalClipboard = boolean(
-            key = "clipboard__use_internal_clipboard",
-            default = false,
-        )
-        val syncToFloris = enum(
-            key = "clipboard__sync_to_floris",
-            default = ClipboardSyncBehavior.ALL_EVENTS,
-        )
-        val syncToSystem = enum(
-            key = "clipboard__sync_to_system",
-            default = ClipboardSyncBehavior.NO_EVENTS,
-        )
-        val suggestionEnabled = boolean(
-            key = "clipboard__suggestion_enabled",
-            default = true,
-        )
-        val suggestionTimeout = int(
-            key = "clipboard__suggestion_timeout",
-            default = 60,
-        )
-        val historyEnabled = boolean(
-            key = "clipboard__history_enabled",
-            default = false,
-        )
-        val historyNumGridColumnsPortrait = int(
-            key = "clipboard__history_num_grid_columns_portrait",
-            default = CLIPBOARD_HISTORY_NUM_GRID_COLUMNS_AUTO,
-        )
-        val historyNumGridColumnsLandscape = int(
-            key = "clipboard__history_num_grid_columns_landscape",
-            default = CLIPBOARD_HISTORY_NUM_GRID_COLUMNS_AUTO,
-        )
-        @Composable
-        fun historyNumGridColumns(): PreferenceData<Int> {
-            val configuration = LocalConfiguration.current
-            return if (configuration.isOrientationPortrait()) {
-                historyNumGridColumnsPortrait
-            } else {
-                historyNumGridColumnsLandscape
-            }
-        }
-        val historyAutoCleanOldEnabled = boolean(
-            key = "clipboard__history_auto_clean_old_enabled",
-            default = false,
-        )
-        val historyAutoCleanOldAfter = int(
-            key = "clipboard__history_auto_clean_old_after",
-            default = 20,
-        )
-        val historyAutoCleanSensitiveEnabled = boolean(
-            key = "clipboard__history_auto_clean_sensitive_enabled",
-            default = false,
-        )
-        val historyAutoCleanSensitiveAfter = int(
-            key = "clipboard__history_auto_clean_sensitive_after",
-            default = 20,
-        )
-        val historySizeLimitEnabled = boolean(
-            key = "clipboard__history_size_limit_enabled",
-            default = true,
-        )
-        val historySizeLimit = int(
-            key = "clipboard__history_size_limit",
-            default = 20,
-        )
-        val historyHideOnPaste = boolean(
-            key = "clipboard__history_hide_on_paste",
-            default = false,
-        )
-        val historyHideOnNextTextField = boolean(
-            key = "clipboard__history_hide_on_next_text_field",
-            default = true,
-        )
-        val clearPrimaryClipAffectsHistoryIfUnpinned = boolean(
-            key = "clipboard__clear_primary_clip_affects_history_if_unpinned",
-            default = true,
-        )
     }
 
     val correction = Correction()
@@ -175,10 +87,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
     inner class Devtools {
         val enabled = boolean(
             key = "devtools__enabled",
-            default = false,
-        )
-        val showPrimaryClip = boolean(
-            key = "devtools__show_primary_clip",
             default = false,
         )
         val showInputStateOverlay = boolean(
@@ -705,15 +613,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             "advanced__force_incognito_mode_from_dynamic" -> {
                 entry.transform(key = "suggestion__force_incognito_mode_from_dynamic")
             }
-            // Migrate clipboard suggestion prefs to clipboard
-            // Keep migration rules until: 0.7 dev cycle
-            "suggestion__clipboard_content_enabled" -> {
-                entry.transform(key = "clipboard__suggestion_enabled")
-            }
-            "suggestion__clipboard_content_timeout" -> {
-                entry.transform(key = "clipboard__suggestion_timeout")
-            }
-
             //Migrate one hand mode prefs keep until: 0.7 dev cycle
             "keyboard__one_handed_mode" -> {
                 if (entry.rawValue == "OFF") {
@@ -777,46 +676,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
                     key = "theme__editor_color_representation",
                     rawValue = colorRepresentation.name,
                 )
-            }
-
-            // Migrate clipboard history pref names
-            // Keep migration rules until: 0.7 dev cycle
-            "clipboard__sync_to_floris", "clipboard__sync_to_system" -> {
-                entry.transform(
-                    type = PreferenceType.string(),
-                    rawValue = when (entry.rawValue) {
-                        "true" -> ClipboardSyncBehavior.ALL_EVENTS.name
-                        "false" -> ClipboardSyncBehavior.NO_EVENTS.name
-                        else -> entry.rawValue
-                    },
-                )
-            }
-            "clipboard__num_history_grid_columns_portrait" -> {
-                entry.transform(key = "clipboard__history_num_grid_columns_portrait")
-            }
-            "clipboard__num_history_grid_columns_landscape" -> {
-                entry.transform(key = "clipboard__history_num_grid_columns_landscape")
-            }
-            "clipboard__clean_up_old" -> {
-                entry.transform(key = "clipboard__history_auto_clean_old_enabled")
-            }
-            "clipboard__clean_up_after" -> {
-                entry.transform(key = "clipboard__history_auto_clean_old_after")
-            }
-            "clipboard__auto_clean_sensitive" -> {
-                entry.transform(key = "clipboard__history_auto_clean_sensitive_enabled")
-            }
-            "clipboard__auto_clean_sensitive_after" -> {
-                entry.transform(key = "clipboard__history_auto_clean_sensitive_after")
-            }
-            "clipboard__limit_history_size" -> {
-                entry.transform(key = "clipboard__history_size_limit_enabled")
-            }
-            "clipboard__max_history_size" -> {
-                entry.transform(key = "clipboard__history_size_limit")
-            }
-            "clipboard__clear_primary_clip_deletes_last_item" -> {
-                entry.transform(key = "clipboard__clear_primary_clip_affects_history_if_unpinned")
             }
 
             // Migrate key spacing rules

@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.settings.theme.DisplayKbdAfterDialogs
 import dev.patrickgold.florisboard.app.settings.theme.SnyggLevel
-import dev.patrickgold.florisboard.ime.clipboard.ClipboardSyncBehavior
 import dev.patrickgold.florisboard.ime.core.DisplayLanguageNamesIn
 import dev.patrickgold.florisboard.ime.input.CapitalizationBehavior
 import dev.patrickgold.florisboard.ime.input.HapticVibrationMode
@@ -99,30 +98,6 @@ private val ENUM_DISPLAY_ENTRIES = mapOf<Pair<KClass<*>, String>, @Composable ()
             entry(
                 key = CapitalizationBehavior.CAPSLOCK_BY_CYCLE,
                 label = stringRes(R.string.enum__capitalization_behavior__capslock_by_cycle),
-            )
-        }
-    },
-    ClipboardSyncBehavior::class to DEFAULT to {
-        listPrefEntries {
-            entry(
-                key = ClipboardSyncBehavior.NO_EVENTS,
-                label = stringRes(R.string.enum__clipboard_sync_behavior__no_events),
-                description = stringRes(R.string.enum__clipboard_sync_behavior__no_events__description),
-            )
-            entry(
-                key = ClipboardSyncBehavior.ONLY_CLEAR_EVENTS,
-                label = stringRes(R.string.enum__clipboard_sync_behavior__only_clear_events),
-                description = stringRes(R.string.enum__clipboard_sync_behavior__only_clear_events__description),
-            )
-            entry(
-                key = ClipboardSyncBehavior.ONLY_SET_EVENTS,
-                label = stringRes(R.string.enum__clipboard_sync_behavior__only_set_events),
-                description = stringRes(R.string.enum__clipboard_sync_behavior__only_set_events__description),
-            )
-            entry(
-                key = ClipboardSyncBehavior.ALL_EVENTS,
-                label = stringRes(R.string.enum__clipboard_sync_behavior__all_events),
-                description = stringRes(R.string.enum__clipboard_sync_behavior__all_events__description),
             )
         }
     },
@@ -527,10 +502,6 @@ private val ENUM_DISPLAY_ENTRIES = mapOf<Pair<KClass<*>, String>, @Composable ()
             entry(
                 key = SwipeAction.UNDO,
                 label = stringRes(R.string.enum__swipe_action__undo),
-            )
-            entry(
-                key = SwipeAction.SWITCH_TO_CLIPBOARD_CONTEXT,
-                label = stringRes(R.string.enum__swipe_action__switch_to_clipboard_context),
             )
             entry(
                 key = SwipeAction.SHOW_INPUT_METHOD_PICKER,

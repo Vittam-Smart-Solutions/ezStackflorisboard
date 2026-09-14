@@ -25,13 +25,11 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardReturn
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.automirrored.filled.Undo
-import androidx.compose.material.icons.automirrored.outlined.Assignment
 import androidx.compose.material.icons.automirrored.outlined.Backspace
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.ContentCut
 import androidx.compose.material.icons.filled.ContentPasteGo
-import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.FontDownload
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -205,9 +203,6 @@ fun ComputingEvaluator.computeImageVector(data: KeyData): ImageVector? {
         KeyCode.CLIPBOARD_SELECT_ALL -> {
             Icons.Default.SelectAll
         }
-        KeyCode.CLIPBOARD_CLEAR_PRIMARY_CLIP -> {
-            Icons.Default.DeleteSweep
-        }
         KeyCode.COMPACT_LAYOUT_TO_LEFT,
         KeyCode.COMPACT_LAYOUT_TO_RIGHT,
         KeyCode.TOGGLE_COMPACT_LAYOUT -> {
@@ -254,9 +249,6 @@ fun ComputingEvaluator.computeImageVector(data: KeyData): ImageVector? {
         }
         KeyCode.FORWARD_DELETE -> {
             Icons.AutoMirrored.Default.ForwardDelete
-        }
-        KeyCode.IME_UI_MODE_CLIPBOARD -> {
-            Icons.AutoMirrored.Outlined.Assignment
         }
         KeyCode.LANGUAGE_SWITCH -> {
             Icons.Default.Language

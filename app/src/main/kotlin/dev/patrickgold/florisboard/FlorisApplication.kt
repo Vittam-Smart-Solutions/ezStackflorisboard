@@ -121,7 +121,6 @@ class FlorisApplication : Application() {
             preferenceStoreLoaded.value = true
         }
         extensionManager.value.init()
-        clipboardManager.value.initializeForContext(this)
         DictionaryManager.init(this)
     }
 

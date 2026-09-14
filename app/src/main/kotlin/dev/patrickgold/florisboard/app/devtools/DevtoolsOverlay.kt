@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.appContext
-import dev.patrickgold.florisboard.clipboardManager
 import dev.patrickgold.florisboard.editorInstance
 import dev.patrickgold.florisboard.ime.keyboard.CachedLayout
 import dev.patrickgold.florisboard.ime.keyboard.DebugLayoutComputationResult
@@ -68,7 +67,6 @@ fun DevtoolsOverlay(modifier: Modifier = Modifier) {
     val themeManager by context.themeManager()
 
     val devtoolsEnabled by prefs.devtools.enabled.collectAsState()
-    val showPrimaryClip by prefs.devtools.showPrimaryClip.collectAsState()
     val showInputStateOverlay by prefs.devtools.showInputStateOverlay.collectAsState()
     val showSpellingOverlay by prefs.devtools.showSpellingOverlay.collectAsState()
     val showInlineAutofillOverlay by prefs.devtools.showInlineAutofillOverlay.collectAsState()
@@ -81,9 +79,6 @@ fun DevtoolsOverlay(modifier: Modifier = Modifier) {
         LocalContentColor provides Color.White,
     ) {
         Column(modifier = modifier.fillMaxSize()) {
-            if (devtoolsEnabled && showPrimaryClip) {
-                DevtoolsClipboardOverlay()
-            }
             if (devtoolsEnabled && showInputStateOverlay) {
                 DevtoolsInputStateOverlay()
             }
@@ -101,21 +96,6 @@ fun DevtoolsOverlay(modifier: Modifier = Modifier) {
                 DevtoolsStylesheetFailedToLoadOverlay(loadFailure)
             }
         }
-    }
-}
-
-@Composable
-private fun DevtoolsClipboardOverlay() {
-    val context = LocalContext.current
-    val clipboardManager by context.clipboardManager()
-
-    DevtoolsOverlayBox(title = "Clipboard overlay") {
-        val primaryClip by clipboardManager.primaryClipFlow.collectAsState()
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp, start = 8.dp, end = 8.dp),
-            text = primaryClip.toString(),
-            color = Color.White,
-        )
     }
 }
 

@@ -16,20 +16,12 @@
 
 package dev.patrickgold.florisboard.ime.editor
 
-import android.content.ClipDescription
-import android.content.ContentUris
 import android.content.Context
 import android.view.KeyEvent
-import androidx.core.view.inputmethod.InputConnectionCompat
-import androidx.core.view.inputmethod.InputContentInfoCompat
 import dev.patrickgold.florisboard.FlorisImeService
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.appContext
 import dev.patrickgold.florisboard.clipboardManager
-import dev.patrickgold.florisboard.ime.ImeUiMode
-import dev.patrickgold.florisboard.ime.clipboard.provider.ClipboardFileStorage
-import dev.patrickgold.florisboard.ime.clipboard.provider.ClipboardItem
-import dev.patrickgold.florisboard.ime.clipboard.provider.ItemType
 import dev.patrickgold.florisboard.ime.input.InputShiftState
 import dev.patrickgold.florisboard.ime.keyboard.IncognitoMode
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardMode
@@ -294,46 +286,6 @@ class EditorInstance(context: Context) : AbstractEditorInstance(context) {
     }
 
     /**
-     * Commits the given [ClipboardItem]. If the clip data is text (incl. HTML), it delegates to [commitText].
-     * If the item has a content URI (and the EditText supports it), the item is committed as rich data.
-     * This allows for committing (e.g) images.
-     *
-     * @param item The ClipboardItem to commit
-     *
-     * @return True on success, false if something went wrong.
-     */
-    fun commitClipboardItem(item: ClipboardItem?): Boolean {
-        if (item == null) return false
-        val mimeTypes = item.mimeTypes
-        return when (item.type) {
-            ItemType.TEXT -> {
-                commitText(item.text.toString()).also {
-                    updateLastCommitPosition()
-                }
-            }
-            ItemType.IMAGE, ItemType.VIDEO -> {
-                item.uri ?: return false
-                val id = ContentUris.parseId(item.uri)
-                val file = ClipboardFileStorage.getFileForId(appContext, id)
-                if (!file.exists()) return false
-                val inputContentInfo = InputContentInfoCompat(
-                    item.uri,
-                    ClipDescription("clipboard media file", mimeTypes.toTypedArray()),
-                    null,
-                )
-                val ic = currentInputConnection() ?: return false
-                ic.finishComposingText()
-                val flags = InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION
-                InputConnectionCompat.commitContent(ic, activeInfo.base, inputContentInfo, flags, null)
-            }
-        }.also {
-            if (prefs.clipboard.historyHideOnPaste.get()) {
-                keyboardManager.activeState.imeUiMode = ImeUiMode.TEXT
-            }
-        }
-    }
-
-    /**
      * Executes a backward delete on this editor's text. If a text selection is active, all
      * characters inside this selection will be removed, else only the left-most character from
      * the cursor's position.
@@ -457,10 +409,12 @@ class EditorInstance(context: Context) : AbstractEditorInstance(context) {
     fun performClipboardPaste(): Boolean {
         autoSpace.setInactive()
         phantomSpace.setInactive()
-        return commitClipboardItem(clipboardManager.primaryClip).also { result ->
-            if (!result) {
-                appContext.showShortToastSync("Failed to paste item.")
-            }
+        val text = clipboardManager.primaryClipText
+        return if (text != null) {
+            commitText(text).also { updateLastCommitPosition() }
+        } else {
+            appContext.showShortToastSync("Failed to paste item.")
+            false
         }
     }
 
