@@ -1,11 +1,7 @@
 [
   [
     { "$": "shift_state_selector",
-      "shiftedManual": {
-        "code": 33, "label": "!", "type": "numeric", "popup": {
-          "main": { "code": 161, "label": "¡" }
-        }
-      },
+      "shiftedManual": { "code": 46, "label": ".", "type": "numeric" },
       "default": {
         "code": 49, "label": "1", "type": "numeric", "popup": {
           "main": { "code": 185, "label": "¹" },
