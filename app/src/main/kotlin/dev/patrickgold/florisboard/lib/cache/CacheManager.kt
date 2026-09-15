@@ -19,18 +19,11 @@ package dev.patrickgold.florisboard.lib.cache
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import dev.patrickgold.florisboard.app.ext.EditorAction
 import dev.patrickgold.florisboard.app.settings.advanced.Backup
 import dev.patrickgold.florisboard.appContext
-import dev.patrickgold.florisboard.ime.theme.ThemeExtensionEditor
 import dev.patrickgold.florisboard.lib.NATIVE_NULLPTR
 import dev.patrickgold.florisboard.lib.ext.Extension
 import dev.patrickgold.florisboard.lib.ext.ExtensionDefaults
-import dev.patrickgold.florisboard.lib.ext.ExtensionEditor
 import dev.patrickgold.florisboard.lib.ext.ExtensionJsonConfig
 import dev.patrickgold.florisboard.lib.io.FileRegistry
 import dev.patrickgold.florisboard.lib.io.ZipUtils
@@ -61,7 +54,6 @@ class CacheManager(context: Context) {
 
         private const val ImporterDirName = "importer"
         private const val ExporterDirName = "exporter"
-        private const val EditorDirName = "editor"
         private const val BackupAndRestoreDirName = "backup-and-restore"
 
         const val LoadedDirName = "loaded"
@@ -72,7 +64,6 @@ class CacheManager(context: Context) {
 
     val importer = WorkspacesContainer(ImporterDirName) { ImporterWorkspace(it) }
     val exporter = WorkspacesContainer(ExporterDirName) { ExporterWorkspace(it) }
-    val themeExtEditor = WorkspacesContainer(EditorDirName) { ExtEditorWorkspace<ThemeExtensionEditor>(it) }
     val backupAndRestore = WorkspacesContainer(BackupAndRestoreDirName) { BackupAndRestoreWorkspace(it) }
 
     fun readFromUriIntoCache(uri: Uri) = readFromUriIntoCache(listOf(uri))
@@ -180,33 +171,6 @@ class CacheManager(context: Context) {
 
     inner class ExporterWorkspace(uuid: String) : Workspace(uuid) {
         override val dir: FsDir = exporter.dir.subDir(uuid)
-    }
-
-    inner class ExtEditorWorkspace<T : ExtensionEditor>(uuid: String) : Workspace(uuid) {
-        override val dir: FsDir = themeExtEditor.dir.subDir(uuid)
-
-        val extDir: FsDir = dir.subDir("ext")
-        val saverDir: FsDir = dir.subDir("saver")
-
-        var currentAction by mutableStateOf<EditorAction?>(null)
-        var ext: Extension? = null
-        var editor by mutableStateOf<T?>(null)
-        var version by mutableIntStateOf(0)
-
-        val isModified get() = version > 0
-
-        override fun mkdirs() {
-            super.mkdirs()
-            extDir.mkdirs()
-            saverDir.mkdirs()
-        }
-
-        inline fun <R> update(block: T.() -> R): R {
-            // Method is designed to only be called when editor has been previously initialized
-            val ret = block(editor!!)
-            version++
-            return ret
-        }
     }
 
     inner class BackupAndRestoreWorkspace(uuid: String) : Workspace(uuid) {

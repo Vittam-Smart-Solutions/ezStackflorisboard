@@ -30,19 +30,10 @@ import dev.patrickgold.florisboard.ime.keyboard.IncognitoMode
 import dev.patrickgold.florisboard.ime.keyboard.SpaceBarMode
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.nlp.SpellingLanguageMode
-import dev.patrickgold.florisboard.ime.smartbar.CandidatesDisplayMode
-import dev.patrickgold.florisboard.ime.smartbar.ExtendedActionsPlacement
-import dev.patrickgold.florisboard.ime.smartbar.IncognitoDisplayMode
-import dev.patrickgold.florisboard.ime.smartbar.SmartbarLayout
-import dev.patrickgold.florisboard.ime.smartbar.quickaction.QuickAction
-import dev.patrickgold.florisboard.ime.smartbar.quickaction.QuickActionArrangement
-import dev.patrickgold.florisboard.ime.smartbar.quickaction.QuickActionJsonConfig
 import dev.patrickgold.florisboard.ime.text.gestures.SwipeAction
-import dev.patrickgold.florisboard.ime.text.key.KeyCode
 import dev.patrickgold.florisboard.ime.text.key.KeyHintConfiguration
 import dev.patrickgold.florisboard.ime.text.key.KeyHintMode
 import dev.patrickgold.florisboard.ime.text.key.UtilityKeyAction
-import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyData
 import dev.patrickgold.florisboard.ime.theme.ThemeMode
 import dev.patrickgold.florisboard.ime.theme.extCoreTheme
 import dev.patrickgold.florisboard.ime.window.ImeWindowConfig
@@ -391,10 +382,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
             key = "keyboard__space_bar_switches_to_characters",
             default = true,
         )
-        val incognitoDisplayMode = enum(
-            key = "keyboard__incognito_indicator",
-            default = IncognitoDisplayMode.DISPLAY_BEHIND_KEYBOARD,
-        )
 
         fun keyHintConfiguration(): KeyHintConfiguration {
             return KeyHintConfiguration(
@@ -460,48 +447,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         )
     }
 
-    val smartbar = Smartbar()
-    inner class Smartbar {
-        val enabled = boolean(
-            key = "smartbar__enabled",
-            default = false,
-        )
-        val layout = enum(
-            key = "smartbar__layout",
-            default = SmartbarLayout.SUGGESTIONS_ACTIONS_SHARED,
-        )
-        val actionArrangement = custom(
-            key = "smartbar__action_arrangement",
-            default = QuickActionArrangement.Default,
-            serializer = QuickActionArrangement.Serializer,
-        )
-        val flipToggles = boolean(
-            key = "smartbar__flip_toggles",
-            default = false,
-        )
-        val sharedActionsExpanded = boolean(
-            key = "smartbar__shared_actions_expanded",
-            default = false,
-        )
-        @Deprecated("Always enabled due to UX issues")
-        val sharedActionsAutoExpandCollapse = boolean(
-            key = "smartbar__shared_actions_auto_expand_collapse",
-            default = true,
-        )
-        val sharedActionsExpandWithAnimation = boolean(
-            key = "smartbar__shared_actions_expand_with_animation",
-            default = true,
-        )
-        val extendedActionsExpanded = boolean(
-            key = "smartbar__extended_actions_expanded",
-            default = false,
-        )
-        val extendedActionsPlacement = enum(
-            key = "smartbar__extended_actions_placement",
-            default = ExtendedActionsPlacement.ABOVE_CANDIDATES,
-        )
-    }
-
     val spelling = Spelling()
     inner class Spelling {
         val languageMode = enum(
@@ -527,10 +472,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         val enabled = boolean(
             key = "suggestion__enabled",
             default = false,
-        )
-        val displayMode = enum(
-            key = "suggestion__display_mode",
-            default = CandidatesDisplayMode.DYNAMIC_SCROLLABLE,
         )
         val blockPossiblyOffensive = boolean(
             key = "suggestion__block_possibly_offensive",
@@ -621,50 +562,6 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
                     entry.keepAsIs()
                 }
             }
-            "smartbar__action_arrangement" -> {
-                fun migrateAction(action: QuickAction): QuickAction {
-                    return if (action is QuickAction.InsertKey && action.data.code == KeyCode.COMPACT_LAYOUT_TO_RIGHT) {
-                        action.copy(data = TextKeyData.TOGGLE_COMPACT_LAYOUT)
-                    } else {
-                        action
-                    }
-                }
-
-                val arrangement = QuickActionJsonConfig.decodeFromString<QuickActionArrangement>(entry.rawValue)
-                var newArrangement = arrangement.copy(
-                    stickyAction = arrangement.stickyAction?.let{ migrateAction(it) },
-                    dynamicActions = arrangement.dynamicActions.map { migrateAction(it) },
-                    hiddenActions = arrangement.hiddenActions.map { migrateAction(it) },
-                )
-                if (QuickAction.InsertKey(TextKeyData.LANGUAGE_SWITCH) !in newArrangement) {
-                    newArrangement = newArrangement.copy(
-                        dynamicActions = newArrangement.dynamicActions.plus(QuickAction.InsertKey(TextKeyData.LANGUAGE_SWITCH))
-                    )
-                }
-                if (QuickAction.InsertKey(TextKeyData.FORWARD_DELETE) !in newArrangement) {
-                    newArrangement = newArrangement.copy(
-                        dynamicActions = newArrangement.dynamicActions.plus(QuickAction.InsertKey(TextKeyData.FORWARD_DELETE))
-                    )
-                }
-                if (QuickAction.InsertKey(TextKeyData.IME_HIDE_UI) !in newArrangement) {
-                    newArrangement = newArrangement.copy(
-                        dynamicActions = newArrangement.dynamicActions.plus(QuickAction.InsertKey(TextKeyData.IME_HIDE_UI))
-                    )
-                }
-                if (QuickAction.InsertKey(TextKeyData.TOGGLE_FLOATING_WINDOW) !in newArrangement) {
-                    newArrangement = newArrangement.copy(
-                        dynamicActions = newArrangement.dynamicActions.plus(QuickAction.InsertKey(TextKeyData.TOGGLE_FLOATING_WINDOW))
-                    )
-                }
-                if (QuickAction.InsertKey(TextKeyData.TOGGLE_RESIZE_MODE) !in newArrangement) {
-                    newArrangement = newArrangement.copy(
-                        dynamicActions = newArrangement.dynamicActions.plus(QuickAction.InsertKey(TextKeyData.TOGGLE_RESIZE_MODE))
-                    )
-                }
-                val json = QuickActionJsonConfig.encodeToString(newArrangement.distinct())
-                entry.transform(rawValue = json)
-            }
-
             // Migrate theme editor fine-tuning
             // Keep migration rule until: 0.6 dev cycle
             "theme__editor_display_colors_as" -> {

@@ -19,7 +19,6 @@ package dev.patrickgold.florisboard.ime.keyboard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
@@ -27,14 +26,8 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.patrickgold.florisboard.app.FlorisPreferenceStore
-import dev.patrickgold.florisboard.ime.nlp.NlpInlineAutofill
-import dev.patrickgold.florisboard.ime.smartbar.ExtendedActionsPlacement
-import dev.patrickgold.florisboard.ime.smartbar.InlineSuggestionsChipMargin
-import dev.patrickgold.florisboard.ime.smartbar.SmartbarLayout
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboard
 import dev.patrickgold.florisboard.ime.window.LocalWindowController
 import dev.patrickgold.florisboard.keyboardManager
@@ -80,25 +73,9 @@ object FlorisImeSizing {
 
     @Composable
     fun smartbarRowCountAsState(): State<Int> {
-        val prefs by FlorisPreferenceStore
-        val smartbarEnabled by prefs.smartbar.enabled.collectAsState()
-        val smartbarLayout by prefs.smartbar.layout.collectAsState()
-        val extendedActionsExpanded by prefs.smartbar.extendedActionsExpanded.collectAsState()
-        val extendedActionsPlacement by prefs.smartbar.extendedActionsPlacement.collectAsState()
-        return remember {
-            derivedStateOf {
-                if (smartbarEnabled) {
-                    if (smartbarLayout == SmartbarLayout.SUGGESTIONS_ACTIONS_EXTENDED && extendedActionsExpanded &&
-                        extendedActionsPlacement != ExtendedActionsPlacement.OVERLAY_APP_UI) {
-                        2
-                    } else {
-                        1
-                    }
-                } else {
-                    0
-                }
-            }
-        }
+        // The Smartbar has been removed, so it never occupies any rows. Kept as a State<Int> (rather than
+        // inlining the constant 0 at call sites) since callers still use it for general IME window sizing math.
+        return remember { derivedStateOf { 0 } }
     }
 
     @Composable
@@ -117,7 +94,6 @@ object FlorisImeSizing {
 @Composable
 fun ProvideKeyboardRowBaseHeight(content: @Composable () -> Unit) {
     val windowController = LocalWindowController.current
-    val density = LocalDensity.current
 
     val windowSpec by windowController.activeWindowSpec.collectAsState()
 
@@ -129,14 +105,6 @@ fun ProvideKeyboardRowBaseHeight(content: @Composable () -> Unit) {
         }
     }
     val (rowHeight, smartbarRowHeight) = heights
-
-    SideEffect {
-        val marginV = InlineSuggestionsChipMargin.calculateTopPadding() +
-            InlineSuggestionsChipMargin.calculateBottomPadding()
-        NlpInlineAutofill.suggestionsChipHeightPx = with(density) {
-            (smartbarRowHeight - marginV).roundToPx()
-        }
-    }
 
     CompositionLocalProvider(
         LocalKeyboardRowBaseHeight provides rowHeight,

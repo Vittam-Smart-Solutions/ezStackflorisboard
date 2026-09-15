@@ -466,9 +466,9 @@ class FlorisImeService : LifecycleInputMethodService() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreateInlineSuggestionsRequest(uiExtras: Bundle): InlineSuggestionsRequest? {
-        if (!prefs.smartbar.enabled.get() || !prefs.suggestion.api30InlineSuggestionsEnabled.get()) {
+        if (!prefs.suggestion.api30InlineSuggestionsEnabled.get()) {
             flogInfo(LogTopic.IMS_EVENTS) {
-                "Ignoring inline suggestions request because Smartbar and/or inline suggestions are disabled."
+                "Ignoring inline suggestions request because inline suggestions are disabled."
             }
             return null
         }

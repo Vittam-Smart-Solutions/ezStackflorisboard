@@ -31,6 +31,7 @@ enum class KeyboardMode(val value: Int) {
     SMARTBAR_CLIPBOARD_CURSOR_ROW(8),
     @Deprecated(message = "TODO: remove")
     SMARTBAR_NUMBER_ROW(9),
+    @Deprecated(message = "TODO: remove")
     SMARTBAR_QUICK_ACTIONS(10);
 
     companion object {

@@ -18,15 +18,9 @@ package dev.patrickgold.florisboard.app.settings
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.filled.Gesture
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.SmartButton
-import androidx.compose.material.icons.filled.Spellcheck
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Keyboard
-import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -104,39 +98,9 @@ fun HomeScreen() = FlorisScreen {
             }
         }*/
         Preference(
-            icon = Icons.Default.Language,
-            title = stringRes(R.string.settings__localization__title),
-            onClick = { navController.navigate(Routes.Settings.Localization) },
-        )
-        Preference(
-            icon = Icons.Outlined.Palette,
-            title = stringRes(R.string.settings__theme__title),
-            onClick = { navController.navigate(Routes.Settings.Theme) },
-        )
-        Preference(
             icon = Icons.Outlined.Keyboard,
             title = stringRes(R.string.settings__keyboard__title),
             onClick = { navController.navigate(Routes.Settings.Keyboard) },
-        )
-        Preference(
-            icon = Icons.Default.SmartButton,
-            title = stringRes(R.string.settings__smartbar__title),
-            onClick = { navController.navigate(Routes.Settings.Smartbar) },
-        )
-        Preference(
-            icon = Icons.Default.Spellcheck,
-            title = stringRes(R.string.settings__typing__title),
-            onClick = { navController.navigate(Routes.Settings.Typing) },
-        )
-        Preference(
-            icon = Icons.Default.Gesture,
-            title = stringRes(R.string.settings__gestures__title),
-            onClick = { navController.navigate(Routes.Settings.Gestures) },
-        )
-        Preference(
-            icon = Icons.Default.Extension,
-            title = stringRes(R.string.ext__home__title),
-            onClick = { navController.navigate(Routes.Ext.Home) },
         )
         Preference(
             icon = Icons.Outlined.Build,

@@ -35,7 +35,6 @@ import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.FlorisPreferenceStore
 import dev.patrickgold.florisboard.appContext
 import dev.patrickgold.florisboard.extensionManager
-import dev.patrickgold.florisboard.ime.smartbar.CachedInlineSuggestionsChipStyleSet
 import dev.patrickgold.florisboard.lib.devtools.flogInfo
 import dev.patrickgold.florisboard.lib.ext.ExtensionComponentName
 import dev.patrickgold.florisboard.lib.ext.ExtensionMeta
@@ -54,11 +53,17 @@ import org.florisboard.lib.kotlin.io.FsDir
 import org.florisboard.lib.kotlin.io.deleteContentsRecursively
 import org.florisboard.lib.kotlin.io.subDir
 import org.florisboard.lib.kotlin.io.subFile
+import org.florisboard.lib.snygg.SnyggSinglePropertySet
 import org.florisboard.lib.snygg.SnyggStylesheet
 import org.florisboard.lib.snygg.value.SnyggStaticColorValue
 import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
+
+// Note: previously populated by the Smartbar's inline-autofill-suggestions row (removed along with the rest
+// of the Smartbar subsystem). Nothing writes to this anymore, so createInlineSuggestionUiStyleBundle() below
+// now always returns null, which FlorisImeService already handles gracefully.
+var CachedInlineSuggestionsChipStyleSet: SnyggSinglePropertySet? = null
 
 /**
  * Core class which manages the keyboard theme. Note, that this does not affect the UI theme of the

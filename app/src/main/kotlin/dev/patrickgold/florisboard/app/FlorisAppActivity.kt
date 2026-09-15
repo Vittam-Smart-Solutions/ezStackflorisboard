@@ -44,7 +44,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.patrickgold.florisboard.R
 import dev.patrickgold.florisboard.app.apptheme.FlorisAppTheme
-import dev.patrickgold.florisboard.app.ext.ExtensionImportScreenType
 import dev.patrickgold.florisboard.app.setup.NotificationPermissionState
 import dev.patrickgold.florisboard.appContext
 import dev.patrickgold.florisboard.cacheManager
@@ -209,15 +208,10 @@ class FlorisAppActivity : ComponentActivity() {
             if (intent != null) {
                 if (intent.action == Intent.ACTION_VIEW && intent.categories?.contains(Intent.CATEGORY_BROWSABLE) == true) {
                     navController.handleDeepLink(intent)
-                } else {
-                    val data = if (intent.action == Intent.ACTION_VIEW) {
-                        intent.data!!
-                    } else {
-                        intent.clipData!!.getItemAt(0).uri
-                    }
-                    val workspace = runCatching { cacheManager.readFromUriIntoCache(data) }.getOrNull()
-                    navController.navigate(Routes.Ext.Import(ExtensionImportScreenType.EXT_ANY, workspace?.uuid))
                 }
+                // Note: the "import extension from file" flow (.flex files opened/shared from outside the
+                // app) was removed along with the Addons and extensions settings UI. Any other incoming
+                // intent (e.g. opening a .flex file) is now a no-op.
             }
             intentToBeHandled = null
         }

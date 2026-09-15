@@ -111,10 +111,3 @@ val PlaceholderLoadingKeyboard = TextKeyboard(
     extendedPopupMapping = null,
     extendedPopupMappingDefault = null,
 )
-
-val SmartbarQuickActionsKeyboard = TextKeyboard(
-    arrangement = emptyArray(),
-    mode = KeyboardMode.SMARTBAR_QUICK_ACTIONS,
-    extendedPopupMapping = null,
-    extendedPopupMappingDefault = null,
-)

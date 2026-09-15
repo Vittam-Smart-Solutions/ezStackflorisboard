@@ -22,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import dev.patrickgold.florisboard.ime.core.SelectSubtypePanel
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
-import dev.patrickgold.florisboard.ime.smartbar.quickaction.QuickActionsEditorPanel
 import dev.patrickgold.florisboard.keyboardManager
 import kotlin.getValue
 
@@ -43,9 +42,6 @@ fun BottomSheetWindow() {
             }
         },
     ) {
-        if (state.isActionsEditorVisible) {
-            QuickActionsEditorPanel()
-        }
         if (state.isSubtypeSelectionVisible) {
             SelectSubtypePanel()
         }

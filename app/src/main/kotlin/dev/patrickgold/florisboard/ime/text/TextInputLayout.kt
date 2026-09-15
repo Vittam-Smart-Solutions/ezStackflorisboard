@@ -28,15 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import dev.patrickgold.florisboard.R
-import dev.patrickgold.florisboard.app.FlorisPreferenceStore
-import dev.patrickgold.florisboard.ime.smartbar.IncognitoDisplayMode
-import dev.patrickgold.florisboard.ime.smartbar.InlineSuggestionsStyleCache
-import dev.patrickgold.florisboard.ime.smartbar.Smartbar
-import dev.patrickgold.florisboard.ime.smartbar.quickaction.QuickActionsOverflowPanel
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardLayout
 import dev.patrickgold.florisboard.ime.theme.FlorisImeUi
 import dev.patrickgold.florisboard.keyboardManager
-import dev.patrickgold.jetpref.datastore.model.collectAsState
 import org.florisboard.lib.snygg.ui.SnyggIcon
 
 @Composable
@@ -46,37 +40,24 @@ fun TextInputLayout(
     val context = LocalContext.current
     val keyboardManager by context.keyboardManager()
 
-    val prefs by FlorisPreferenceStore
-
-    val state by keyboardManager.activeState.collectAsState()
     val evaluator by keyboardManager.activeEvaluator.collectAsState()
-
-    InlineSuggestionsStyleCache()
 
     Column(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
-        Smartbar()
-        if (state.isActionsOverflowVisible) {
-            QuickActionsOverflowPanel()
-        } else {
-            Box {
-                val incognitoDisplayMode by prefs.keyboard.incognitoDisplayMode.collectAsState()
-                val showIncognitoIcon = evaluator.state.isIncognitoMode &&
-                    incognitoDisplayMode == IncognitoDisplayMode.DISPLAY_BEHIND_KEYBOARD
-                if (showIncognitoIcon) {
-                    SnyggIcon(
-                        FlorisImeUi.IncognitoModeIndicator.elementName,
-                        modifier = Modifier
-                            .matchParentSize()
-                            .align(Alignment.Center),
-                        painter = painterResource(R.drawable.ic_incognito),
-                    )
-                }
-                TextKeyboardLayout(evaluator = evaluator)
+        Box {
+            if (evaluator.state.isIncognitoMode) {
+                SnyggIcon(
+                    FlorisImeUi.IncognitoModeIndicator.elementName,
+                    modifier = Modifier
+                        .matchParentSize()
+                        .align(Alignment.Center),
+                    painter = painterResource(R.drawable.ic_incognito),
+                )
             }
+            TextKeyboardLayout(evaluator = evaluator)
         }
     }
 }

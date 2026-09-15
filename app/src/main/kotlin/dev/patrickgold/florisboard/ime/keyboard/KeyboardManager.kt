@@ -97,14 +97,11 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
 
     val resources = KeyboardManagerResources()
     val activeState = ObservableKeyboardState.new()
-    var smartbarVisibleDynamicActionsCount by mutableIntStateOf(0)
     private var lastToastReference = WeakReference<Toast>(null)
 
     private val activeEvaluatorGuard = Mutex(locked = false)
     private var activeEvaluatorVersion = AtomicInteger(0)
     val activeEvaluator: StateFlow<ComputingEvaluator>
-        field = MutableStateFlow<ComputingEvaluator>(DefaultComputingEvaluator)
-    val activeSmartbarEvaluator: StateFlow<ComputingEvaluator>
         field = MutableStateFlow<ComputingEvaluator>(DefaultComputingEvaluator)
     val lastCharactersEvaluator: StateFlow<ComputingEvaluator>
         field = MutableStateFlow<ComputingEvaluator>(DefaultComputingEvaluator)
@@ -203,7 +200,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
                 key.computeLabelsAndDrawables(computingEvaluator)
             }
             activeEvaluator.value = computingEvaluator
-            activeSmartbarEvaluator.value = computingEvaluator.asSmartbarQuickActionsEvaluator()
             if (computedKeyboard.mode == KeyboardMode.CHARACTERS) {
                 lastCharactersEvaluator.value = computingEvaluator
             }
@@ -734,15 +730,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
             }
             KeyCode.SYSTEM_PREV_INPUT_METHOD -> FlorisImeService.switchToPrevInputMethod()
             KeyCode.SYSTEM_NEXT_INPUT_METHOD -> FlorisImeService.switchToNextInputMethod()
-            KeyCode.TOGGLE_SMARTBAR_VISIBILITY -> scope.launch {
-                prefs.smartbar.enabled.let { it.set(!it.get()) }
-            }
-            KeyCode.TOGGLE_ACTIONS_OVERFLOW -> {
-                activeState.isActionsOverflowVisible = !activeState.isActionsOverflowVisible
-            }
-            KeyCode.TOGGLE_ACTIONS_EDITOR -> {
-                activeState.isActionsEditorVisible = !activeState.isActionsEditorVisible
-            }
             KeyCode.TOGGLE_INCOGNITO_MODE -> scope.launch { handleToggleIncognitoMode() }
             KeyCode.TOGGLE_AUTOCORRECT -> handleToggleAutocorrect()
             KeyCode.UNDO -> editorInstance.performUndo()
@@ -995,16 +982,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
 
         override fun slotData(data: KeyData): KeyData? {
             return subtypeManager.getCurrencySet(subtype).getSlot(data.code)
-        }
-
-        fun asSmartbarQuickActionsEvaluator(): ComputingEvaluatorImpl {
-            return ComputingEvaluatorImpl(
-                version = version,
-                keyboard = SmartbarQuickActionsKeyboard,
-                editorInfo = editorInfo,
-                state = state,
-                subtype = Subtype.DEFAULT,
-            )
         }
     }
 }

@@ -30,10 +30,6 @@ import dev.patrickgold.florisboard.ime.keyboard.KeyboardMode
 import dev.patrickgold.florisboard.ime.keyboard.SpaceBarMode
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.nlp.SpellingLanguageMode
-import dev.patrickgold.florisboard.ime.smartbar.CandidatesDisplayMode
-import dev.patrickgold.florisboard.ime.smartbar.ExtendedActionsPlacement
-import dev.patrickgold.florisboard.ime.smartbar.IncognitoDisplayMode
-import dev.patrickgold.florisboard.ime.smartbar.SmartbarLayout
 import dev.patrickgold.florisboard.ime.text.gestures.SwipeAction
 import dev.patrickgold.florisboard.ime.text.key.KeyHintMode
 import dev.patrickgold.florisboard.ime.text.key.UtilityKeyAction
@@ -70,22 +66,6 @@ private val ENUM_DISPLAY_ENTRIES = mapOf<Pair<KClass<*>, String>, @Composable ()
             entry(
                 key = AppTheme.AMOLED_DARK,
                 label = stringRes(R.string.pref__other__settings_theme__amoled_dark),
-            )
-        }
-    },
-    CandidatesDisplayMode::class to DEFAULT to {
-        listPrefEntries {
-            entry(
-                key = CandidatesDisplayMode.CLASSIC,
-                label = stringRes(R.string.enum__candidates_display_mode__classic),
-            )
-            entry(
-                key = CandidatesDisplayMode.DYNAMIC,
-                label = stringRes(R.string.enum__candidates_display_mode__dynamic),
-            )
-            entry(
-                key = CandidatesDisplayMode.DYNAMIC_SCROLLABLE,
-                label = stringRes(R.string.enum__candidates_display_mode__dynamic_scrollable),
             )
         }
     },
@@ -161,28 +141,6 @@ private val ENUM_DISPLAY_ENTRIES = mapOf<Pair<KClass<*>, String>, @Composable ()
             )
         }
     },
-    ExtendedActionsPlacement::class to DEFAULT to {
-        listPrefEntries {
-            entry(
-                key = ExtendedActionsPlacement.ABOVE_CANDIDATES,
-                label = stringRes(R.string.enum__extended_actions_placement__above_candidates),
-                description = stringRes(R.string.enum__extended_actions_placement__above_candidates__description),
-                showDescriptionOnlyIfSelected = true,
-            )
-            entry(
-                key = ExtendedActionsPlacement.BELOW_CANDIDATES,
-                label = stringRes(R.string.enum__extended_actions_placement__below_candidates),
-                description = stringRes(R.string.enum__extended_actions_placement__below_candidates__description),
-                showDescriptionOnlyIfSelected = true,
-            )
-            entry(
-                key = ExtendedActionsPlacement.OVERLAY_APP_UI,
-                label = stringRes(R.string.enum__extended_actions_placement__overlay_app_ui),
-                description = stringRes(R.string.enum__extended_actions_placement__overlay_app_ui__description),
-                showDescriptionOnlyIfSelected = true,
-            )
-        }
-    },
     HapticVibrationMode::class to DEFAULT to {
         listPrefEntries {
             entry(
@@ -218,18 +176,6 @@ private val ENUM_DISPLAY_ENTRIES = mapOf<Pair<KClass<*>, String>, @Composable ()
                 label = stringRes(R.string.enum__key_hint_mode__smart_priority),
                 description = stringRes(R.string.enum__key_hint_mode__smart_priority__description),
                 showDescriptionOnlyIfSelected = true,
-            )
-        }
-    },
-    IncognitoDisplayMode::class to DEFAULT to {
-        listPrefEntries {
-            entry(
-                key = IncognitoDisplayMode.REPLACE_SHARED_ACTIONS_TOGGLE,
-                label = stringRes(id = R.string.enum__incognito_display_mode__replace_shared_actions_toggle),
-            )
-            entry(
-                key = IncognitoDisplayMode.DISPLAY_BEHIND_KEYBOARD,
-                label = stringRes(id = R.string.enum__incognito_display_mode__display_behind_keyboard),
             )
         }
     },
@@ -356,30 +302,6 @@ private val ENUM_DISPLAY_ENTRIES = mapOf<Pair<KClass<*>, String>, @Composable ()
             entry(
                 key = LandscapeInputUiMode.DYNAMICALLY_SHOW,
                 label = stringRes(R.string.enum__landscape_input_ui_mode__dynamically_show),
-            )
-        }
-    },
-    SmartbarLayout::class to DEFAULT to {
-        listPrefEntries {
-            entry(
-                key = SmartbarLayout.SUGGESTIONS_ONLY,
-                label = stringRes(R.string.enum__smartbar_layout__suggestions_only),
-                description = stringRes(R.string.enum__smartbar_layout__suggestions_only__description),
-            )
-            entry(
-                key = SmartbarLayout.ACTIONS_ONLY,
-                label = stringRes(R.string.enum__smartbar_layout__actions_only),
-                description = stringRes(R.string.enum__smartbar_layout__actions_only__description),
-            )
-            entry(
-                key = SmartbarLayout.SUGGESTIONS_ACTIONS_SHARED,
-                label = stringRes(R.string.enum__smartbar_layout__suggestions_action_shared),
-                description = stringRes(R.string.enum__smartbar_layout__suggestions_action_shared__description),
-            )
-            entry(
-                key = SmartbarLayout.SUGGESTIONS_ACTIONS_EXTENDED,
-                label = stringRes(R.string.enum__smartbar_layout__suggestions_actions_extended),
-                description = stringRes(R.string.enum__smartbar_layout__suggestions_actions_extended__description),
             )
         }
     },

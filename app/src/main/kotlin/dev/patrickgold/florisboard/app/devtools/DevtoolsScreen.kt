@@ -28,7 +28,6 @@ import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.extensionManager
 import dev.patrickgold.florisboard.ime.dictionary.DictionaryManager
 import dev.patrickgold.florisboard.ime.dictionary.FlorisUserDictionaryDatabase
-import dev.patrickgold.florisboard.ime.smartbar.quickaction.QuickActionArrangement
 import dev.patrickgold.florisboard.lib.compose.FlorisConfirmDeleteDialog
 import dev.patrickgold.florisboard.lib.compose.FlorisScreen
 import dev.patrickgold.jetpref.datastore.model.collectAsState
@@ -100,17 +99,6 @@ fun DevtoolsScreen() = FlorisScreen {
                 title = stringRes(R.string.devtools__clear_udm_internal_database__label),
                 summary = stringRes(R.string.devtools__clear_udm_internal_database__summary),
                 onClick = { setShowDialog(true) },
-                enabledIf = { prefs.devtools.enabled isEqualTo true },
-            )
-            Preference(
-                title = stringRes(R.string.devtools__reset_quick_actions_to_default__label),
-                summary = stringRes(R.string.devtools__reset_quick_actions_to_default__summary),
-                onClick = {
-                    scope.launch {
-                        prefs.smartbar.actionArrangement.set(QuickActionArrangement.Default)
-                        context.showLongToast(R.string.devtools__reset_quick_actions_to_default__toast_success)
-                    }
-                },
                 enabledIf = { prefs.devtools.enabled isEqualTo true },
             )
             Preference(
