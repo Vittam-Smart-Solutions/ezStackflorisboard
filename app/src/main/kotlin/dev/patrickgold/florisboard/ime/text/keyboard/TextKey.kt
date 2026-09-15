@@ -159,8 +159,8 @@ class TextKey(override val data: AbstractKeyData) : Key(data) {
                     else -> 1.56f
                 }
                 else -> when (computed.code) {
-                    KeyCode.SHIFT,
-                    KeyCode.DELETE -> 1.56f
+                    KeyCode.SHIFT -> 1.56f
+                    KeyCode.DELETE -> 2.2f
                     KeyCode.VIEW_CHARACTERS,
                     KeyCode.VIEW_SYMBOLS,
                     KeyCode.VIEW_SYMBOLS2,
