@@ -226,13 +226,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
         nlpManager.suggest(subtypeManager.activeSubtype, content)
     }
 
-    /**
-     * @return If the language switch should be shown.
-     */
-    fun shouldShowLanguageSwitch(): Boolean {
-        return subtypeManager.subtypes.size > 1
-    }
-
     fun executeSwipeAction(swipeAction: SwipeAction) {
         val keyData = when (swipeAction) {
             SwipeAction.CYCLE_TO_PREVIOUS_KEYBOARD_MODE -> when (activeState.keyboardMode) {
@@ -454,10 +447,7 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
      * FlorisBoard internal or system-wide.
      */
     private fun handleLanguageSwitch() {
-        when (prefs.keyboard.utilityKeyAction.get()) {
-            UtilityKeyAction.SWITCH_LANGUAGE -> subtypeManager.switchToNextSubtype()
-            else -> FlorisImeService.switchToNextInputMethod()
-        }
+        FlorisImeService.switchToNextInputMethod()
     }
 
     /**
@@ -949,7 +939,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
                     }
                     when (tempUtilityKeyAction) {
                         UtilityKeyAction.DISABLED,
-                        UtilityKeyAction.SWITCH_LANGUAGE,
                         UtilityKeyAction.SWITCH_KEYBOARD_APP -> false
                     }
                 }
@@ -960,7 +949,6 @@ class KeyboardManager(context: Context) : InputKeyEventReceiver {
                     }
                     when (tempUtilityKeyAction) {
                         UtilityKeyAction.DISABLED -> false
-                        UtilityKeyAction.SWITCH_LANGUAGE -> shouldShowLanguageSwitch()
                         UtilityKeyAction.SWITCH_KEYBOARD_APP -> true
                     }
                 }

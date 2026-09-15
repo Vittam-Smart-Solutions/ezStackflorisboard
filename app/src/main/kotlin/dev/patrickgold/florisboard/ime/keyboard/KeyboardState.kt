@@ -58,7 +58,6 @@ import kotlin.properties.Delegates
  *
  * <Byte 7> | <Byte 6> | <Byte 5> | <Byte 4> | Description
  * ---------|----------|----------|----------|---------------------------------
- *          |          |          |        1 | Subtype selection dialog visible
  *        1 |          |          |          | Devtools: Show drag&drop helpers
  *
  * The resulting structure is only relevant during a runtime lifespan and
