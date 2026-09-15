@@ -67,7 +67,7 @@ configure<ApplicationExtension> {
     }
 
     defaultConfig {
-        applicationId = "dev.patrickgold.florisboard"
+        applicationId = "io.vittam.ezpigmy.keyboard"
         minSdk = projectMinSdk.toInt()
         targetSdk = projectTargetSdk.toInt()
         versionCode = projectVersionCode.toInt()
