@@ -89,11 +89,7 @@ object KeyCode {
     const val SYSTEM_INPUT_METHOD_PICKER =  -221
     const val SYSTEM_PREV_INPUT_METHOD =    -222
     const val SYSTEM_NEXT_INPUT_METHOD =    -223
-    const val IME_SUBTYPE_PICKER =          -224
-    const val IME_PREV_SUBTYPE =            -225
-    const val IME_NEXT_SUBTYPE =            -226
     const val LANGUAGE_SWITCH =             -227
-    const val SHOW_SUBTYPE_PICKER =         -228
 
     const val IME_SHOW_UI =                 -231
     const val IME_HIDE_UI =                 -232

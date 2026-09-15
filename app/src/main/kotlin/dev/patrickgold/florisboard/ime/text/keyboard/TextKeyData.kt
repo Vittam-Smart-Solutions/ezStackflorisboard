@@ -131,9 +131,6 @@ data class TextKeyData(
                 SYSTEM_INPUT_METHOD_PICKER,
                 SYSTEM_PREV_INPUT_METHOD,
                 SYSTEM_NEXT_INPUT_METHOD,
-                IME_SUBTYPE_PICKER,
-                IME_PREV_SUBTYPE,
-                IME_NEXT_SUBTYPE,
                 LANGUAGE_SWITCH,
                 IME_SHOW_UI,
                 IME_HIDE_UI,
@@ -394,12 +391,6 @@ data class TextKeyData(
             code = KeyCode.SYSTEM_INPUT_METHOD_PICKER,
             label = "system_input_method_picker",
         )
-        /** Predefined key data for [KeyCode.SHOW_SUBTYPE_PICKER] */
-        val SHOW_SUBTYPE_PICKER = TextKeyData(
-            type = KeyType.FUNCTION,
-            code = KeyCode.SHOW_SUBTYPE_PICKER,
-            label = "subtype_picker",
-        )
         /** Predefined key data for [KeyCode.SYSTEM_PREV_INPUT_METHOD] */
         val SYSTEM_PREV_INPUT_METHOD = TextKeyData(
             type = KeyType.FUNCTION,
@@ -411,24 +402,6 @@ data class TextKeyData(
             type = KeyType.FUNCTION,
             code = KeyCode.SYSTEM_NEXT_INPUT_METHOD,
             label = "system_next_input_method",
-        )
-        /** Predefined key data for [KeyCode.IME_SUBTYPE_PICKER] */
-        val IME_SUBTYPE_PICKER = TextKeyData(
-            type = KeyType.FUNCTION,
-            code = KeyCode.IME_SUBTYPE_PICKER,
-            label = "ime_subtype_picker",
-        )
-        /** Predefined key data for [KeyCode.IME_PREV_SUBTYPE] */
-        val IME_PREV_SUBTYPE = TextKeyData(
-            type = KeyType.FUNCTION,
-            code = KeyCode.IME_PREV_SUBTYPE,
-            label = "ime_prev_subtype",
-        )
-        /** Predefined key data for [KeyCode.IME_NEXT_SUBTYPE] */
-        val IME_NEXT_SUBTYPE = TextKeyData(
-            type = KeyType.FUNCTION,
-            code = KeyCode.IME_NEXT_SUBTYPE,
-            label = "ime_next_subtype",
         )
         /** Predefined key data for [KeyCode.LANGUAGE_SWITCH] */
         val LANGUAGE_SWITCH = TextKeyData(

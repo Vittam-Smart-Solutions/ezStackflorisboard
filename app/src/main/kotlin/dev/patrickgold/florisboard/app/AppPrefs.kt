@@ -130,11 +130,11 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         )
         val swipeLeft = enum(
             key = "gestures__swipe_left",
-            default = SwipeAction.SWITCH_TO_NEXT_SUBTYPE,
+            default = SwipeAction.NO_ACTION,
         )
         val swipeRight = enum(
             key = "gestures__swipe_right",
-            default = SwipeAction.SWITCH_TO_PREV_SUBTYPE,
+            default = SwipeAction.NO_ACTION,
         )
         val spaceBarSwipeUp = enum(
             key = "gestures__space_bar_swipe_up",
@@ -336,7 +336,7 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         )
         val utilityKeyAction = enum(
             key = "keyboard__utility_key_action",
-            default = UtilityKeyAction.SWITCH_LANGUAGE,
+            default = UtilityKeyAction.DISABLED,
         )
         val spaceBarMode = enum(
             key = "keyboard__space_bar_display_mode",

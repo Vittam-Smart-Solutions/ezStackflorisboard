@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import dev.patrickgold.florisboard.ime.core.SelectSubtypePanel
 import dev.patrickgold.florisboard.ime.keyboard.KeyboardState
 import dev.patrickgold.florisboard.keyboardManager
 import kotlin.getValue
@@ -37,17 +36,11 @@ fun BottomSheetWindow() {
             if (state.isActionsEditorVisible) {
                 keyboardManager.activeState.isActionsEditorVisible = false
             }
-            if (state.isSubtypeSelectionVisible) {
-                keyboardManager.activeState.isSubtypeSelectionVisible = false
-            }
         },
     ) {
-        if (state.isSubtypeSelectionVisible) {
-            SelectSubtypePanel()
-        }
     }
 }
 
 fun KeyboardState.isAnyBottomSheetVisible(): Boolean {
-    return isActionsEditorVisible || isSubtypeSelectionVisible
+    return isActionsEditorVisible
 }
