@@ -8,6 +8,11 @@
     <!-- Permission needed to create notifications on devices running Android 13+ -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
+    <!-- Held by a host app (e.g. ezPigmy) to push theme/font-size updates via SettingsUpdateReceiver -->
+    <permission
+        android:name="io.vittam.ezpigmy.keyboard.permission.UPDATE_SETTINGS"
+        android:protectionLevel="signature"/>
+
     <!-- Android 11+ only: Define that FlorisBoard requests to see all apps that
           ship with an IME or Spell Check service. This is used to guide the user
           in the Settings Ui why FlorisBoard may not be working.
@@ -129,6 +134,16 @@
                 <data android:mimeType="image/*"/>
             </intent-filter>
         </activity>
+
+        <!-- Host-app settings-update API (theme, font size) -->
+        <receiver
+            android:name="dev.patrickgold.florisboard.ime.api.SettingsUpdateReceiver"
+            android:exported="true"
+            android:permission="io.vittam.ezpigmy.keyboard.permission.UPDATE_SETTINGS">
+            <intent-filter>
+                <action android:name="io.vittam.ezpigmy.keyboard.action.UPDATE_SETTINGS"/>
+            </intent-filter>
+        </receiver>
 
         <!-- Default file provider to share files from the "files" or "cache" dir -->
         <provider

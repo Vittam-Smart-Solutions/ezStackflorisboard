@@ -152,6 +152,8 @@ private tailrec fun Context.florisApplication(): FlorisApplication {
 
 fun Context.appContext() = lazyOf(this.florisApplication())
 
+fun Context.preferenceStoreLoaded() = this.florisApplication().preferenceStoreLoaded
+
 fun Context.cacheManager() = this.florisApplication().cacheManager
 
 fun Context.clipboardManager() = this.florisApplication().clipboardManager
