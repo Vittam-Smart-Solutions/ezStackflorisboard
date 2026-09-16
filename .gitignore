@@ -46,9 +46,6 @@ captures/
 !/.idea/copyright/
 !/.idea/externalDependencies.xml
 
-# Keystore files
-*.jks
-keystore.properties
 crowdin.properties
 
 # C++
