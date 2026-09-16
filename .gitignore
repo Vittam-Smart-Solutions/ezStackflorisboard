@@ -19,6 +19,7 @@ out/
 
 # Gradle files
 .gradle/
+.kotlin/
 build/
 release/
 
@@ -57,6 +58,9 @@ result
 
 # VSCode
 .vscode/
+
+# Superpowers brainstorming scratch
+.superpowers/
 
 # Rust
 debug/
