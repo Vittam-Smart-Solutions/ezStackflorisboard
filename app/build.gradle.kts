@@ -126,10 +126,16 @@ configure<ApplicationExtension> {
     signingConfigs {
         if (keystorePropertiesFile.exists()) {
             create("release") {
-                storeFile = file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["releaseStoreFile"] as String)
+                storePassword = keystoreProperties["releaseStorePassword"] as String
+                keyAlias = keystoreProperties["releaseKeyAlias"] as String
+                keyPassword = keystoreProperties["releaseKeyPassword"] as String
+            }
+            getByName("debug") {
+                storeFile = file(keystoreProperties["debugStoreFile"] as String)
+                storePassword = keystoreProperties["debugStorePassword"] as String
+                keyAlias = keystoreProperties["debugKeyAlias"] as String
+                keyPassword = keystoreProperties["debugKeyPassword"] as String
             }
         }
     }
@@ -141,6 +147,7 @@ configure<ApplicationExtension> {
 
             isDebuggable = true
             isJniDebuggable = false
+            if (keystorePropertiesFile.exists()) signingConfig = signingConfigs.getByName("debug")
         }
 
         create("beta") {
