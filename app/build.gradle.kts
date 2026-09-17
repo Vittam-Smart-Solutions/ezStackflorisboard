@@ -38,15 +38,31 @@ plugins {
 val projectMinSdk: String by project
 val projectTargetSdk: String by project
 val projectCompileSdk: String by project
-val projectVersionCode: String by project
-val projectVersionName: String by project
-val projectVersionNameSuffix = projectVersionName.substringAfter("-", "").let { suffix ->
-    if (suffix.isNotEmpty()) {
-        "-$suffix"
-    } else {
-        suffix
-    }
-}
+
+fun gitOutput(vararg args: String): String = providers.exec {
+    commandLine(*args)
+    isIgnoreExitValue = true
+}.standardOutput.asText.get().trim()
+
+// ---------------------------------------------------------------------------
+// Git-based versioning (ezStack platform convention)
+// If a v* tag exists: version = tagVersion with patch += commitsSinceTag
+// If no tag:          version = 0.0.{totalCommitCount}
+// versionCode        = major * 1_000_000 + minor * 10_000 + patch
+// ---------------------------------------------------------------------------
+val latestTag = gitOutput("git", "describe", "--tags", "--match", "v*", "--abbrev=0")
+val totalCommits = gitOutput("git", "rev-list", "HEAD", "--count").toIntOrNull() ?: 0
+val tagParts = if (latestTag.isNotEmpty()) latestTag.trimStart('v').split(".") else emptyList()
+val gitMajor = tagParts.getOrNull(0)?.toIntOrNull() ?: 0
+val gitMinor = tagParts.getOrNull(1)?.toIntOrNull() ?: 0
+val tagBasePatch = tagParts.getOrNull(2)?.toIntOrNull() ?: 0
+val commitsSinceTag = if (latestTag.isNotEmpty())
+    gitOutput("git", "rev-list", "$latestTag..HEAD", "--count").toIntOrNull() ?: 0
+else totalCommits
+val gitPatch = tagBasePatch + commitsSinceTag
+
+val computedVersionName = "$gitMajor.$gitMinor.$gitPatch"
+val computedVersionCode = gitMajor * 1_000_000 + gitMinor * 10_000 + gitPatch
 
 kotlin {
     compilerOptions {
@@ -77,8 +93,8 @@ configure<ApplicationExtension> {
         applicationId = "io.vittam.ezpigmy.keyboard"
         minSdk = projectMinSdk.toInt()
         targetSdk = projectTargetSdk.toInt()
-        versionCode = projectVersionCode.toInt()
-        versionName = projectVersionName.substringBefore("-")
+        versionCode = computedVersionCode
+        versionName = computedVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -129,7 +145,7 @@ configure<ApplicationExtension> {
 
         create("beta") {
             applicationIdSuffix = ".beta"
-            versionNameSuffix = projectVersionNameSuffix
+            versionNameSuffix = "-beta"
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             isMinifyEnabled = true
@@ -138,8 +154,6 @@ configure<ApplicationExtension> {
         }
 
         named("release") {
-            versionNameSuffix = projectVersionNameSuffix
-
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             isMinifyEnabled = true
             isShrinkResources = true
