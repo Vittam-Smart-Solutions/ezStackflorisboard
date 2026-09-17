@@ -340,7 +340,7 @@ abstract class FlorisPreferenceModel : PreferenceModel() {
         )
         val spaceBarMode = enum(
             key = "keyboard__space_bar_display_mode",
-            default = SpaceBarMode.CURRENT_LANGUAGE,
+            default = SpaceBarMode.NOTHING,
         )
         val capitalizationBehavior = enum(
             key = "keyboard__capitalization_behavior",

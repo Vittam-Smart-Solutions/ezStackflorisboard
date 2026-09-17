@@ -22,7 +22,6 @@ import dev.patrickgold.florisboard.app.LocalNavController
 import dev.patrickgold.florisboard.app.Routes
 import dev.patrickgold.florisboard.app.enumDisplayEntriesOf
 import dev.patrickgold.florisboard.ime.input.CapitalizationBehavior
-import dev.patrickgold.florisboard.ime.keyboard.SpaceBarMode
 import dev.patrickgold.florisboard.ime.landscapeinput.LandscapeInputUiMode
 import dev.patrickgold.florisboard.ime.text.key.KeyHintMode
 import dev.patrickgold.florisboard.ime.text.key.UtilityKeyAction
@@ -74,11 +73,6 @@ fun KeyboardScreen() = FlorisScreen {
             title = stringRes(R.string.pref__keyboard__utility_key_action__label),
             entries = enumDisplayEntriesOf(UtilityKeyAction::class),
             visibleIf = { prefs.keyboard.utilityKeyEnabled isEqualTo true },
-        )
-        ListPreference(
-            prefs.keyboard.spaceBarMode,
-            title = stringRes(R.string.pref__keyboard__space_bar_mode__label),
-            entries = enumDisplayEntriesOf(SpaceBarMode::class),
         )
         ListPreference(
             prefs.keyboard.capitalizationBehavior,
