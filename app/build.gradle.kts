@@ -63,6 +63,9 @@ val gitPatch = tagBasePatch + commitsSinceTag
 
 val computedVersionName = "$gitMajor.$gitMinor.$gitPatch"
 val computedVersionCode = gitMajor * 1_000_000 + gitMinor * 10_000 + gitPatch
+val isDirty = gitOutput("git", "status", "--porcelain").isNotEmpty()
+val gitCommitHash = getGitCommitHash().get()
+val computedVersionFull = "$computedVersionName${if (isDirty) "-dirty" else ""} (${gitCommitHash.take(7)})"
 
 kotlin {
     compilerOptions {
@@ -98,7 +101,8 @@ configure<ApplicationExtension> {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BUILD_COMMIT_HASH", "\"${getGitCommitHash().get()}\"")
+        buildConfigField("String", "BUILD_COMMIT_HASH", "\"$gitCommitHash\"")
+        buildConfigField("String", "VERSION_FULL", "\"$computedVersionFull\"")
         buildConfigField("String", "FLADDONS_API_VERSION", "\"v~draft2\"")
         buildConfigField("String", "FLADDONS_STORE_URL", "\"beta.addons.florisboard.org\"")
 

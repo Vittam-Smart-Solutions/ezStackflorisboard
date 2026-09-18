@@ -56,7 +56,7 @@ fun AboutScreen() = FlorisScreen {
     val context = LocalContext.current
     val clipboardManager by context.clipboardManager()
 
-    val appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+    val appVersion = BuildConfig.VERSION_FULL
 
     content {
         Column(
