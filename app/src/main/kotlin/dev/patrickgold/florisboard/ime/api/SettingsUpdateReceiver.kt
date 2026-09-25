@@ -35,16 +35,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
 /**
- * Receives [EzPigmyKeyboardApi.ACTION_UPDATE_SETTINGS] broadcasts from a host app and applies the
- * requested theme/font-size changes. See [EzPigmyKeyboardApi] for the wire contract.
+ * Receives [EzStackKeyboardApi.ACTION_UPDATE_SETTINGS] broadcasts from a host app and applies the
+ * requested theme/font-size changes. See [EzStackKeyboardApi] for the wire contract.
  */
 class SettingsUpdateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action != EzPigmyKeyboardApi.ACTION_UPDATE_SETTINGS) return
+        if (intent.action != EzStackKeyboardApi.ACTION_UPDATE_SETTINGS) return
 
-        val themeIdRaw = intent.getStringExtra(EzPigmyKeyboardApi.EXTRA_THEME_ID)
-        val fontSizePercent = if (intent.hasExtra(EzPigmyKeyboardApi.EXTRA_FONT_SIZE_PERCENT)) {
-            intent.getIntExtra(EzPigmyKeyboardApi.EXTRA_FONT_SIZE_PERCENT, 0)
+        val themeIdRaw = intent.getStringExtra(EzStackKeyboardApi.EXTRA_THEME_ID)
+        val fontSizePercent = if (intent.hasExtra(EzStackKeyboardApi.EXTRA_FONT_SIZE_PERCENT)) {
+            intent.getIntExtra(EzStackKeyboardApi.EXTRA_FONT_SIZE_PERCENT, 0)
         } else {
             null
         }
@@ -73,7 +73,7 @@ class SettingsUpdateReceiver : BroadcastReceiver() {
                 }
 
                 if (fontSizePercent != null) {
-                    if (fontSizePercent in EzPigmyKeyboardApi.FONT_SIZE_MIN..EzPigmyKeyboardApi.FONT_SIZE_MAX) {
+                    if (fontSizePercent in EzStackKeyboardApi.FONT_SIZE_MIN..EzStackKeyboardApi.FONT_SIZE_MAX) {
                         prefs.keyboard.fontSizeMultiplierPortrait.set(fontSizePercent)
                     } else {
                         flogWarning { "SettingsUpdateReceiver: ignoring out-of-range font_size_percent $fontSizePercent" }

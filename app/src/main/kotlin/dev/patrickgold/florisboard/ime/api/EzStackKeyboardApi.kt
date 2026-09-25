@@ -21,17 +21,17 @@ package dev.patrickgold.florisboard.ime.api
  * changes by sending a broadcast shaped like this:
  *
  * ```kotlin
- * Intent(EzPigmyKeyboardApi.ACTION_UPDATE_SETTINGS).apply {
- *     setPackage("io.vittam.ezpigmy.keyboard")
- *     putExtra(EzPigmyKeyboardApi.EXTRA_THEME_ID, "org.florisboard.themes:floris_night_borderless")
- *     putExtra(EzPigmyKeyboardApi.EXTRA_FONT_SIZE_PERCENT, 120)
+ * Intent(EzStackKeyboardApi.ACTION_UPDATE_SETTINGS).apply {
+ *     setPackage("io.vittam.ezstack.keyboard")
+ *     putExtra(EzStackKeyboardApi.EXTRA_THEME_ID, "org.florisboard.themes:floris_night_borderless")
+ *     putExtra(EzStackKeyboardApi.EXTRA_FONT_SIZE_PERCENT, 120)
  * }.also { intent ->
- *     context.sendBroadcast(intent, EzPigmyKeyboardApi.PERMISSION_UPDATE_SETTINGS)
+ *     context.sendBroadcast(intent, EzStackKeyboardApi.PERMISSION_UPDATE_SETTINGS)
  * }
  * ```
  *
  * Both extras are optional - omit one to leave that setting unchanged. The sending app's own
- * manifest must declare `<uses-permission android:name="io.vittam.ezpigmy.keyboard.permission.UPDATE_SETTINGS"/>`
+ * manifest must declare `<uses-permission android:name="io.vittam.ezstack.keyboard.permission.UPDATE_SETTINGS"/>`
  * and be signed with the same certificate as this app for the broadcast to be delivered
  * (`signature`-level permission - see AndroidManifest.xml).
  *
@@ -48,9 +48,10 @@ package dev.patrickgold.florisboard.ime.api
  * existing Settings slider range) and only affects the portrait font size, since the host device
  * is portrait-only. Out-of-range or malformed values are ignored.
  */
-object EzPigmyKeyboardApi {
-    const val ACTION_UPDATE_SETTINGS = "io.vittam.ezpigmy.keyboard.action.UPDATE_SETTINGS"
-    const val PERMISSION_UPDATE_SETTINGS = "io.vittam.ezpigmy.keyboard.permission.UPDATE_SETTINGS"
+object EzStackKeyboardApi {
+    private const val APP_ID = "io.vittam.ezstack.keyboard"
+    const val ACTION_UPDATE_SETTINGS = "$APP_ID.action.UPDATE_SETTINGS"
+    const val PERMISSION_UPDATE_SETTINGS = "$APP_ID.permission.UPDATE_SETTINGS"
     const val EXTRA_THEME_ID = "theme_id"
     const val EXTRA_FONT_SIZE_PERCENT = "font_size_percent"
     const val FONT_SIZE_MIN = 50

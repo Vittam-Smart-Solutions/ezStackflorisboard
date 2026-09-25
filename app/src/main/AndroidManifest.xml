@@ -10,7 +10,7 @@
 
     <!-- Held by a host app (e.g. ezPigmy) to push theme/font-size updates via SettingsUpdateReceiver -->
     <permission
-        android:name="io.vittam.ezpigmy.keyboard.permission.UPDATE_SETTINGS"
+        android:name="io.vittam.ezstack.keyboard.permission.UPDATE_SETTINGS"
         android:protectionLevel="signature"/>
 
     <!-- Android 11+ only: Define that FlorisBoard requests to see all apps that
@@ -139,9 +139,9 @@
         <receiver
             android:name="dev.patrickgold.florisboard.ime.api.SettingsUpdateReceiver"
             android:exported="true"
-            android:permission="io.vittam.ezpigmy.keyboard.permission.UPDATE_SETTINGS">
+            android:permission="io.vittam.ezstack.keyboard.permission.UPDATE_SETTINGS">
             <intent-filter>
-                <action android:name="io.vittam.ezpigmy.keyboard.action.UPDATE_SETTINGS"/>
+                <action android:name="io.vittam.ezstack.keyboard.action.UPDATE_SETTINGS"/>
             </intent-filter>
         </receiver>
 

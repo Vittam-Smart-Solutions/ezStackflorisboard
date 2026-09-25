@@ -15,6 +15,7 @@
  */
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.variant.impl.VariantOutputImpl
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
@@ -93,7 +94,7 @@ configure<ApplicationExtension> {
     }
 
     defaultConfig {
-        applicationId = "io.vittam.ezpigmy.keyboard"
+        applicationId = "io.vittam.ezstack.keyboard"
         minSdk = projectMinSdk.toInt()
         targetSdk = projectTargetSdk.toInt()
         versionCode = computedVersionCode
@@ -192,6 +193,19 @@ configure<ApplicationExtension> {
         }
         unitTests.all {
             it.useJUnitPlatform()
+        }
+    }
+}
+
+// AGP 9 removed the legacy applicationVariants/BaseVariantOutputImpl API that sibling ezStack
+// Android apps (ezPigmy, ezBill, still on AGP 8.x) use for this same purpose - this is the
+// AGP-9-compatible equivalent, not an accidental divergence.
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            if (output is VariantOutputImpl) {
+                output.outputFileName.set("ezstack-keyboard-${variant.name}-${computedVersionName}.apk")
+            }
         }
     }
 }
