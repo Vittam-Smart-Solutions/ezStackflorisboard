@@ -1,11 +1,13 @@
 [
   [
+    { "code":  -11, "label": "shift",  "type": "modifier" },
     { "code":    0, "type": "placeholder" },
     { "code":   -7, "label": "delete", "type": "enter_editing" }
   ],
   [
-    { "code":  -11, "label": "shift", "type": "modifier" },
+    { "code":   46, "label": "." },
     { "code":   32, "label": "space" },
+    { "code":   64, "label": "@" },
     { "code":   10, "label": "enter", "groupId": 3, "type": "enter_editing" }
   ]
 ]

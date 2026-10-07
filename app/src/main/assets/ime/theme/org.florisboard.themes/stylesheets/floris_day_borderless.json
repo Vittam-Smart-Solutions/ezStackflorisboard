@@ -1,17 +1,17 @@
 {
   "$schema": "https://schemas.florisboard.org/snygg/v2/stylesheet",
   "@defines": {
-    "--primary": "#4caf50",
-    "--primary-variant": "#388e3c",
+    "--primary": "#1A6CF0",
+    "--primary-variant": "#1557C8",
     "--secondary": "#ff9800",
     "--secondary-variant": "#e65100",
-    "--background": "#e0e0e0",
-    "--background-variant": "#d0d0d0",
-    "--surface": "#f0f0f0",
-    "--surface-variant": "#ffffff",
+    "--background": "#EDEFF3",
+    "--background-variant": "#E1E4EA",
+    "--surface": "#ffffff",
+    "--surface-variant": "#DDE1E7",
 
-    "--popup-surface": "#eeeeee",
-    "--focused-popup-surface": "#bdbdbd",
+    "--popup-surface": "#ffffff",
+    "--focused-popup-surface": "#DDE1E7",
 
     "--drag-marker": "rgb(255,0,0)",
     "--spacer-color": "rgba(0 ,0, 0, 0.25)",
@@ -21,13 +21,13 @@
 
     "--incognito-icon-color": "#00000011",
 
-    "--on-primary": "#f0f0f0",
+    "--on-primary": "#ffffff",
     "--on-background": "#121212",
     "--on-background-disabled": "#12121248",
-    "--on-surface": "#000000",
+    "--on-surface": "#1A1C1E",
     "--on-surface-variant": "#5f5f5f",
 
-    "--shape": "rounded-corner(8dp, 8dp, 8dp, 8dp)",
+    "--shape": "rounded-corner(12dp, 12dp, 12dp, 12dp)",
     "--shape-variant": "rounded-corner(12dp, 12dp, 12dp, 12dp)",
     "--shape-chip": "rounded-corner(50%, 50%, 50%, 50%)"
   },
@@ -68,9 +68,10 @@
   },
 
   "key": {
-    "background": "transparent",
+    "background": "var(--surface)",
     "foreground": "var(--on-surface)",
     "font-size": "22sp",
+    "font-weight": "bold",
     "shape": "var(--shape)",
     "text-max-lines": "1"
   },
@@ -80,7 +81,7 @@
   },
   "key[code=10]": {
     "background": "var(--primary)",
-    "foreground": "var(--on-surface)",
+    "foreground": "var(--on-primary)",
     "margin": "0dp 6dp"
   },
   "key[code=10]:pressed": {
@@ -89,10 +90,8 @@
   },
   "key[code=32]": {
     "background": "var(--surface)",
-    "foreground": "var(--on-surface-variant)",
-    "font-size": "12sp",
-    "margin": "0dp 6dp",
-    "text-overflow": "ellipsis"
+    "foreground": "var(--on-surface)",
+    "margin": "0dp 6dp"
   },
   "key[code=-201,-202,-203]": {
     "font-size": "18sp"
