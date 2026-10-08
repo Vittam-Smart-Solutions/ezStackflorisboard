@@ -1,119 +1,73 @@
 <img align="left" width="80" height="80"
 src=".github/repo_icon.png" alt="App icon">
 
-# FlorisBoard [![Crowdin](https://badges.crowdin.net/florisboard/localized.svg)](https://crowdin.florisboard.org) [![Matrix badge](https://img.shields.io/badge/chat-%23florisboard%3amatrix.org-blue)](https://matrix.to/#/#florisboard:matrix.org) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md) [![FlorisBoard CI](https://github.com/florisboard/florisboard/actions/workflows/android.yml/badge.svg?event=push)](https://github.com/florisboard/florisboard/actions/workflows/android.yml)
+# ezStack Keyboard
 
-**FlorisBoard** is a free and open-source keyboard for Android 8.0+
-devices. It aims at being modern, user-friendly and customizable while
-fully respecting your privacy. Currently in beta state.
+**ezStack Keyboard** is Vittam's private internal Android IME, built as a fork of the
+open-source [FlorisBoard](https://github.com/florisboard/florisboard) project. It provides
+a consistent, branded keyboard experience across the ezStack product line (ezPigmy, and
+future Vittam apps) instead of relying on whatever system keyboard happens to be installed
+on a device.
 
-<table>
-<tr>
-<th style="text-align: center; width: 50%">
-<h3>Stable <a href="https://github.com/florisboard/florisboard/releases/latest"><img alt="Latest stable release" src="https://img.shields.io/github/v/release/florisboard/florisboard?sort=semver&display_name=tag&color=28a745"></a></h3>
-</th>
-<th style="text-align: center; width: 50%">
-<h3>Preview <a href="https://github.com/florisboard/florisboard/releases"><img alt="Latest preview release" src="https://img.shields.io/github/v/release/florisboard/florisboard?include_prereleases&sort=semver&display_name=tag&color=fd7e14"></a></h3>
-</th>
-</tr>
-<tr>
-<td style="vertical-align: top">
-<p><i>Major versions only</i><br><br>Updates are more polished, new features are matured and tested through to ensure a stable experience.</p>
-</td>
-<td style="vertical-align: top">
-<p><i>Major + Alpha/Beta/Rc versions</i><br><br>Updates contain new features that may not be fully matured yet and bugs are more likely to occur. Allows you to give early feedback.</p>
-</td>
-</tr>
-<tr>
-<td style="vertical-align: top">
-<p>
-<a href="https://apt.izzysoft.de/fdroid/index/apk/dev.patrickgold.florisboard"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="64" alt="IzzySoft repo badge"></a>
-<a href="https://f-droid.org/packages/dev.patrickgold.florisboard"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="64" alt="F-Droid badge"></a>
-</p>
-<p>
+This is **not** a public release — there is no F-Droid/Play Store/Obtainium distribution.
+Debug/beta/release APKs are built and installed directly across ezStack's own apps and
+test devices.
 
-**Google Play**: Join the [FlorisBoard Test Group](https://groups.google.com/g/florisboard-closed-beta-test), then visit the [testing page](https://play.google.com/apps/testing/dev.patrickgold.florisboard). Once joined and installed, updates will be delivered like for any other app. ([Store entry](https://play.google.com/store/apps/details?id=dev.patrickgold.florisboard))
+## Relationship to upstream FlorisBoard
 
-</p>
-<p>
+This repo tracks two remotes:
+- `origin` — this fork, `Vittam-Smart-Solutions/ezStackflorisboard`
+- `upstream` — the real open-source project, `florisboard/florisboard`
 
-**Obtainium**: [Auto-import stable config][obtainium_stable]
+`AI_POLICY.md` (referenced from `CONTRIBUTING.md`) prohibits AI-authored code, commit
+messages, PR descriptions, and documentation in anything contributed **upstream** to
+florisboard/florisboard, and forbids autonomous ("vibe coding") upstream contributions
+entirely. It does **not** restrict private/local use — normal AI-assisted development is
+fine within this fork's own history.
 
-</p>
-<p>
+## Where this is used
 
-**Manual**: Download and install the APK from the release page.
+- ezPigmy Android pushes its day/night theme selection and font size to this keyboard at
+  runtime (`KeyboardSettingsSync.kt` on the ezPigmy side), targeting the
+  `floris_night_borderless` / `floris_day_borderless` theme IDs specifically — those two
+  are restyled in place for ezStack branding (dark fills, 12dp corners, blue `#1A6CF0`
+  accent) rather than shipped as a separately-named theme.
+- Release builds share a signing certificate (`vittam-internal-release.jks`; debug builds
+  use `vittam-internal-debug.jks`) with other Vittam internal apps, so this keyboard can
+  pass signature-level permission checks when other ezStack apps talk to it.
+- The numeric keypad (`inputType="number"` fields) is customized for ezStack's own
+  amount/PIN-entry screens: a 3x4 grid (digits + decimal + backspace) with a full-width
+  confirm bar below, instead of upstream's default layout.
 
-</p>
-</td>
-<td style="vertical-align: top">
-<p><a href="https://apt.izzysoft.de/fdroid/index/apk/dev.patrickgold.florisboard.beta"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="64" alt="IzzySoft repo badge"></a></p>
-<p>
+## Build
 
-**Google Play**: Join the [FlorisBoard Test Group](https://groups.google.com/g/florisboard-closed-beta-test), then visit the [preview testing page](https://play.google.com/apps/testing/dev.patrickgold.florisboard.beta). Once joined and installed, updates will be delivered like for any other app. ([Store entry](https://play.google.com/store/apps/details?id=dev.patrickgold.florisboard.beta))
+```bash
+./gradlew clean assembleDebug   # exactly what CI runs
+./gradlew test                  # all unit tests, all modules
+./gradlew :app:lintDebug        # Android Lint, baseline app/lint.xml
+```
 
-</p>
-<p>
+Requires JDK 17, Android SDK/NDK, CMake 3.22+, Clang 15+, and **Rust** (rustup + cargo on
+PATH) — `:lib:native`'s CMake build shells out to `cargo`. Upstream officially supports
+Linux/WSL2 only; plain Windows is untested by them.
 
-**Obtainium**: [Auto-import preview config][obtainium_preview]
+## Module structure
 
-</p>
-<p>
+| Module | Namespace | Purpose |
+|---|---|---|
+| `:app` | `dev.patrickgold.florisboard` | The IME app itself (`applicationId io.vittam.ezstack.keyboard`) |
+| `:lib:kotlin` | — (pure JVM) | Base Kotlin utils, no Android deps |
+| `:lib:android` | `org.florisboard.lib.android` | Android-framework utility layer |
+| `:lib:color`, `:lib:compose` | `org.florisboard.lib.*` | Compose/color utilities |
+| `:lib:snygg` | `org.florisboard.lib.snygg` | FlorisBoard's own CSS-like theme stylesheet engine/DSL |
+| `:lib:native` | `org.florisboard.libnative` | The real JNI/Rust bridge, built into `libfl_native.so` |
 
-**Manual**: Download and install the APK from the release page.
+## Versioning
 
-</p>
-</td>
-</tr>
-</table>
-
-Beginning with v0.7 FlorisBoard will enter the public beta on Google Play.
-
-## Highlighted features
-- Integrated clipboard manager / history
-- Advanced theming support and customization
-- Integrated extension support (still evolving)
-- Emoji keyboard / history / suggestions
-
-> [!IMPORTANT]
-> Word suggestions/spell checking are not included in the current releases
-> and are a major goal for the v0.6 milestone.
-
-Feature roadmap: See [ROADMAP.md](ROADMAP.md)
-
-## Contributing
-Want to contribute to FlorisBoard? That's great to hear! There are lots of
-different ways to help out, please see the [contribution guidelines](CONTRIBUTING.md) for more info.
-
-## Addons Store
-The official [Addons Store](https://beta.addons.florisboard.org) offers the possibility for the community to share and download FlorisBoard extensions.
-Instructions on how to publish addons can be found [here](https://docs.florisboard.org/publishing).
-
-Many thanks to Ali ([@4H1R](https://github.com/4H1R)) for implementing the store!
-
-> [!NOTE]
-> During the initial beta release phase, the Addons Store _will_ only accept theme extensions.
-> Later on we plan to add support for language packs and keyboard extensions.
-
-## List of permissions FlorisBoard requests
-Please refer to this [page](https://docs.florisboard.org/permissions)
-to get more information on this topic.
-
-## APK signing certificate hashes
-
-The package names and SHA-256 hashes of the signature certificate are listed below, so you can verify both FlorisBoard variants with apksigner by using `apksigner verify --print-certs florisboard-<version>-<track>.apk` when you download the APK.
-If you have [AppVerifier](https://github.com/soupslurpr/AppVerifier) installed, you can alternatively copy both the package name and the hash of the corresponding track and share them to AppVerifier.
-
-##### Stable track:
-
-dev.patrickgold.florisboard<br>
-0B:80:71:64:50:8E:AF:EB:1F:BB:81:5B:E7:A2:3C:77:FE:68:9D:94:B1:43:75:C9:9B:DA:A9:B6:57:7F:D6:D6
-
-##### Preview track:
-
-dev.patrickgold.florisboard.beta<br>
-0B:80:71:64:50:8E:AF:EB:1F:BB:81:5B:E7:A2:3C:77:FE:68:9D:94:B1:43:75:C9:9B:DA:A9:B6:57:7F:D6:D6
-
+Git-tag semver, consistent with the rest of the ezStack platform. Never bump manually —
+run `scripts/release.sh` (`--dry-run` to preview), which scans commits since the last
+`v*` tag, bumps by conventional-commit type, updates `CHANGELOG.md` and
+`gradle.properties`, tags, and pushes.
 
 ## Used libraries, components and icons
 * [AndroidX libraries](https://github.com/androidx/androidx) by
@@ -129,11 +83,12 @@ dev.patrickgold.florisboard.beta<br>
 * [KotlinX serialization library](https://github.com/Kotlin/kotlinx.serialization) by
   [Kotlin](https://github.com/Kotlin)
 
-Many thanks to [Nikolay Anzarov](https://www.behance.net/nikolayanzarov) ([@BloodRaven0](https://github.com/BloodRaven0)) for designing and providing the main app icons to this project!
+Many thanks to [Nikolay Anzarov](https://www.behance.net/nikolayanzarov) ([@BloodRaven0](https://github.com/BloodRaven0)) for designing and providing the original app icons this fork builds on!
 
 ## License
 ```
 Copyright 2020-2026 The FlorisBoard Contributors
+Copyright 2026 Vittam Smart Solutions (ezStack Keyboard fork)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -148,11 +103,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-Thanks to [The FlorisBoard Contributors](https://github.com/florisboard/florisboard/graphs/contributors) for making this project possible!
-
-<!-- BEGIN SECTION: obtainium_links -->
-<!-- auto-generated link templates, do NOT edit by hand -->
-<!-- see fastlane/update-readme.sh -->
-[obtainium_preview]: https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://app/%7B%22id%22%3A%22dev.patrickgold.florisboard.beta%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fflorisboard%2Fflorisboard%22%2C%22author%22%3A%22florisboard%22%2C%22name%22%3A%22FlorisBoard%20Preview%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22preview%5C%22%7D%22%7D%0A
-[obtainium_stable]: https://apps.obtainium.imranr.dev/redirect.html?r=obtainium://app/%7B%22id%22%3A%22dev.patrickgold.florisboard%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fflorisboard%2Fflorisboard%22%2C%22author%22%3A%22florisboard%22%2C%22name%22%3A%22FlorisBoard%20Stable%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22stable%5C%22%7D%22%7D%0A
-<!-- END SECTION: obtainium_links -->
+Built on top of [FlorisBoard](https://github.com/florisboard/florisboard) — thanks to
+[The FlorisBoard Contributors](https://github.com/florisboard/florisboard/graphs/contributors)
+for the original project this fork is based on.
