@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1] — 2026-10-08
+
+### Other
+- feat(keyboard): redesign numeric keypad to a 3x4 grid with a confirm bar
+
+
+
 All notable changes to ezStackflorisboard are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
