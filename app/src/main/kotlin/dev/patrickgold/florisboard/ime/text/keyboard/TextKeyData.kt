@@ -200,6 +200,12 @@ data class TextKeyData(
             code = KeyCode.DELETE,
             label = "delete",
         )
+        /** Predefined key data for [KeyCode.ENTER] */
+        val ENTER = TextKeyData(
+            type = KeyType.ENTER_EDITING,
+            code = KeyCode.ENTER,
+            label = "enter",
+        )
         /** Predefined key data for [KeyCode.DELETE_WORD] */
         val DELETE_WORD = TextKeyData(
             type = KeyType.ENTER_EDITING,

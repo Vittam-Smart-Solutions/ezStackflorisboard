@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import dev.patrickgold.florisboard.R
+import dev.patrickgold.florisboard.ime.keyboard.KeyboardMode
 import dev.patrickgold.florisboard.ime.text.keyboard.TextKeyboardLayout
 import dev.patrickgold.florisboard.ime.theme.FlorisImeUi
 import dev.patrickgold.florisboard.keyboardManager
@@ -58,6 +59,9 @@ fun TextInputLayout(
                 )
             }
             TextKeyboardLayout(evaluator = evaluator)
+        }
+        if (evaluator.keyboard.mode == KeyboardMode.NUMERIC) {
+            NumericConfirmBar(evaluator = evaluator)
         }
     }
 }

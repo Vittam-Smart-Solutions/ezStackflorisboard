@@ -277,6 +277,8 @@
     <string name="snygg__rule_element__clipboard_history_locked_title">Clipboard history locked title</string>
     <string name="snygg__rule_element__clipboard_history_locked_message">Clipboard history locked message</string>
 
+    <string name="snygg__rule_element__confirm_bar">Confirm bar</string>
+
     <string name="snygg__rule_element__extracted_landscape_input_layout">Landscape input layout</string>
     <string name="snygg__rule_element__extracted_landscape_input_field">Landscape input field</string>
     <string name="snygg__rule_element__extracted_landscape_input_action">Landscape input action</string>

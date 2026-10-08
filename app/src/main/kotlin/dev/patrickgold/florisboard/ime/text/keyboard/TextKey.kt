@@ -140,7 +140,7 @@ class TextKey(override val data: AbstractKeyData) : Key(data) {
                 }
             }
             flayGrow = when (keyboardMode) {
-                KeyboardMode.NUMERIC,
+                KeyboardMode.NUMERIC -> 1.0f
                 KeyboardMode.PHONE,
                 KeyboardMode.PHONE2 -> 0.0f
                 KeyboardMode.NUMERIC_ADVANCED -> when (computed.type) {

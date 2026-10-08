@@ -108,6 +108,10 @@ import kotlin.math.sqrt
 private const val SpaceBarLineWidthRatio = 0.3f
 private val SpaceBarLineHeight = 2.dp
 
+/** Numeric keypad gets visibly larger, calculator-style gaps than the default keyboard margin. */
+private const val NumericKeyMarginScaleH = 3.5f
+private const val NumericKeyMarginScaleV = 1.8f
+
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -225,8 +229,18 @@ fun TextKeyboardLayout(
 
         val windowController = LocalWindowController.current
         val windowSpec by windowController.activeWindowSpec.collectAsState()
-        val keyMarginH by remember { derivedStateOf { windowSpec.keyMarginH.toPx() } }
-        val keyMarginV by remember { derivedStateOf { windowSpec.keyMarginV.toPx() } }
+        val keyMarginH by remember(keyboard.mode) {
+            derivedStateOf {
+                val base = windowSpec.keyMarginH.toPx()
+                if (keyboard.mode == KeyboardMode.NUMERIC) base * NumericKeyMarginScaleH else base
+            }
+        }
+        val keyMarginV by remember(keyboard.mode) {
+            derivedStateOf {
+                val base = windowSpec.keyMarginV.toPx()
+                if (keyboard.mode == KeyboardMode.NUMERIC) base * NumericKeyMarginScaleV else base
+            }
+        }
 
         val desiredKey = remember(
             keyboard, keyboardWidth, keyboardHeight, keyMarginH, keyMarginV,
