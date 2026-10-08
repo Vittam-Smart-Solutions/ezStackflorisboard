@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2] — 2026-10-08
+
+### Other
+- docs: rewrite README for the ezStack Keyboard fork
+
+
+
 ## [1.1.1] — 2026-10-08
 
 ### Other
