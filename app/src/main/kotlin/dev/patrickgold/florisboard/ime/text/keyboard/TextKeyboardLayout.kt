@@ -104,7 +104,11 @@ import org.florisboard.lib.snygg.ui.rememberSnyggThemeQuery
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-/** Geometry of the bar drawn on the space bar when [SpaceBarMode.NOTHING] is active. */
+/**
+ * Geometry of the bar drawn on the space bar when [SpaceBarMode.NOTHING] is active.
+ * [SpaceBarLineHeight] is the floor at 100% font scale; it's scaled up with the window's font scale
+ * so the indicator keeps pace with every other key's label instead of looking emptier as font size grows.
+ */
 private const val SpaceBarLineWidthRatio = 0.3f
 private val SpaceBarLineHeight = 2.dp
 
@@ -318,7 +322,7 @@ fun TextKeyboardLayout(
         for (textKey in keyboard.keys()) {
             TextKeyButton(
                 textKey, evaluator, desiredKey,
-                debugShowTouchBoundaries,
+                debugShowTouchBoundaries, windowSpec.fontScale,
             )
         }
 
@@ -340,6 +344,7 @@ private fun TextKeyButton(
     evaluator: ComputingEvaluator,
     desiredKey: TextKey,
     debugShowTouchBoundaries: Boolean,
+    fontScale: Float,
 ) = with(LocalDensity.current) {
     val attributes = mapOf(
         FlorisImeUi.Attr.Code to key.computedData.code,
@@ -371,11 +376,12 @@ private fun TextKeyButton(
                 when (spaceBarMode) {
                     SpaceBarMode.NOTHING -> {
                         // ponytail: one key needs a bar, so draw it here instead of adding a composable
+                        val lineHeight = SpaceBarLineHeight * fontScale.coerceAtLeast(1f)
                         Box(
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .fillMaxWidth(SpaceBarLineWidthRatio)
-                                .height(SpaceBarLineHeight)
+                                .height(lineHeight)
                                 .background(LocalContentColor.current, RoundedCornerShape(50)),
                         )
                         return@let
