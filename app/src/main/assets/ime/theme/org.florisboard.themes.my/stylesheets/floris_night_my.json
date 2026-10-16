@@ -73,6 +73,7 @@
     "font-size": "22sp",
     "shape": "var(--shape)",
     "shadow-elevation": "2dp",
+    "text-align": "center",
     "text-max-lines": "1"
   },
   "key:pressed": {

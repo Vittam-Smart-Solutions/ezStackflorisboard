@@ -68,6 +68,7 @@
     "font-size": "22sp",
     "font-weight": "bold",
     "shape": "var(--shape)",
+    "text-align": "center",
     "text-max-lines": "1"
   },
   "key:pressed": {

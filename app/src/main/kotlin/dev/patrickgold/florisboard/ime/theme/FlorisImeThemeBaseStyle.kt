@@ -58,6 +58,7 @@ val FlorisImeThemeBaseStyle = SnyggStylesheet.v2 {
         fontSize = fontSize(22.sp)
         shadowElevation = size(2.dp)
         shape = `var`("--shape")
+        textAlign = textAlign(TextAlign.Center)
         textMaxLines = textMaxLines(1)
     }
     FlorisImeUi.Key.elementName(selector = SnyggSelector.PRESSED) {

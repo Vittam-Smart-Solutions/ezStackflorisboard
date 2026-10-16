@@ -67,6 +67,7 @@
     "foreground": "var(--on-surface)",
     "font-size": "22sp",
     "shape": "var(--shape)",
+    "text-align": "center",
     "text-max-lines": "1"
   },
   "key:pressed": {
