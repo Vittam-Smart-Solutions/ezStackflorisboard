@@ -121,9 +121,6 @@ class TextKey(override val data: AbstractKeyData) : Key(data) {
             isEnabled = evaluator.evaluateEnabled(computed)
             isVisible = true
 
-            val isCharactersBottomRowKey =
-                keyboardMode == KeyboardMode.CHARACTERS && computed.type == KeyType.CHARACTER
-
             flayShrink = when (keyboardMode) {
                 KeyboardMode.NUMERIC,
                 KeyboardMode.NUMERIC_ADVANCED,
@@ -166,13 +163,11 @@ class TextKey(override val data: AbstractKeyData) : Key(data) {
                     KeyCode.DELETE -> 1.56f
                     KeyCode.VIEW_CHARACTERS,
                     KeyCode.VIEW_SYMBOLS,
-                    KeyCode.VIEW_SYMBOLS2,
-                    KeyCode.ENTER -> 1.56f
-                    // The period and at-sign keys sitting on the characters bottom row are wider
-                    // than a letter key. Guarded so the number row's shifted `.`/`@` (type NUMERIC)
-                    // and the symbols pages keep the plain 1.00f width.
-                    46 -> if (isCharactersBottomRowKey) 1.56f else 1.00f
-                    64 -> if (isCharactersBottomRowKey) 1.26f else 1.00f
+                    KeyCode.VIEW_SYMBOLS2 -> 1.56f
+                    // Enter absorbs the width `.`/`@` gave up (they now match a plain letter key
+                    // at 1.00f below), so the characters bottom row's total requested width is
+                    // unchanged overall - only the split between keys is.
+                    KeyCode.ENTER -> 2.38f
                     else -> 1.00f
                 }
             }

@@ -27,7 +27,7 @@
     "--on-surface": "#1A1C1E",
     "--on-surface-variant": "#5f5f5f",
 
-    "--shape": "rounded-corner(12dp, 12dp, 12dp, 12dp)",
+    "--shape": "rounded-corner(8dp, 8dp, 8dp, 8dp)",
     "--shape-variant": "rounded-corner(12dp, 12dp, 12dp, 12dp)",
     "--shape-chip": "rounded-corner(50%, 50%, 50%, 50%)"
   },
@@ -83,7 +83,7 @@
   "key[code=10]": {
     "background": "var(--primary)",
     "foreground": "var(--on-primary)",
-    "margin": "0dp 6dp"
+    "margin": "6dp 0dp"
   },
   "key[code=10]:pressed": {
     "background": "var(--primary-variant)",
@@ -92,7 +92,7 @@
   "key[code=32]": {
     "background": "var(--surface)",
     "foreground": "var(--on-surface)",
-    "margin": "0dp 6dp"
+    "margin": "6dp 0dp"
   },
   "key[code=-201,-202,-203]": {
     "font-size": "18sp"

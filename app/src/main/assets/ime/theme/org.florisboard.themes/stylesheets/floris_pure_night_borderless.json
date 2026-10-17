@@ -77,7 +77,7 @@
   "key[code=10]": {
     "background": "var(--primary)",
     "foreground": "var(--on-surface)",
-    "margin": "0dp 6dp"
+    "margin": "6dp 0dp"
   },
   "key[code=10]:pressed": {
     "background": "var(--primary-variant)",
@@ -87,7 +87,7 @@
     "background": "var(--surface)",
     "foreground": "var(--on-surface-variant)",
     "font-size": "12sp",
-    "margin": "0dp 6dp",
+    "margin": "6dp 0dp",
     "text-overflow": "ellipsis"
   },
   "key[code=-201,-202,-203]": {
